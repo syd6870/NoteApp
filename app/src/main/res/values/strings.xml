@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">NoteApp</string>
+    <string name="add_new_folder">Add new folder</string>
+    <string name="track_message">Tracked Note will notify if the location is within 200M</string>
+    <string name="note">Note</string>
+    <string name="date">Date</string>
+    <string name="pick_date_icon">Pick Date Icon</string>
+    <string name="time">Time</string>
+    <string name="location">Location</string>
+    <string name="add_note_title_placeholder">Click to change title</string>
+    <string name="add_note_content_placeholder">Note description</string>
+    <string name="pick_time_icon">Pick Time Icon</string>
+    <string name="pick_location_icon">Pick Location Icon</string>
+    <string name="track">Track</string>
+    <string name="add_note">Add Note</string>
+    <string name="add_new_folder_icon">Add new Folder Icon</string>
+    <string name="small_design_image">Small Design Image</string>
 </resources>
