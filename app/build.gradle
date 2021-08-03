@@ -77,4 +77,7 @@ dependencies {
 
     // DataStore
     implementation "androidx.datastore:datastore-preferences:$dataStoreVersion"
+
+    // FlexBox
+    implementation 'com.google.android.flexbox:flexbox:3.0.0'
 }
