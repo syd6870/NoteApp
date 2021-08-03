@@ -7,7 +7,9 @@
         <entry key="..\:/Android-Project/NoteApp/app/src/main/res/drawable/ic_baseline_check_24.xml" value="0.1648148148148148" />
         <entry key="..\:/Android-Project/NoteApp/app/src/main/res/drawable/ic_line_10.xml" value="0.1648148148148148" />
         <entry key="..\:/Android-Project/NoteApp/app/src/main/res/drawable/note_line.xml" value="0.1648148148148148" />
+        <entry key="..\:/Android-Project/NoteApp/app/src/main/res/layout/activity_main.xml" value="0.20416666666666666" />
         <entry key="..\:/Android-Project/NoteApp/app/src/main/res/layout/fragment_add_new_note.xml" value="0.25" />
+        <entry key="..\:/Android-Project/NoteApp/app/src/main/res/layout/fragment_notes.xml" value="0.20416666666666666" />
         <entry key="..\:/Android-Project/NoteApp/app/src/main/res/layout/fragment_start.xml" value="0.25" />
         <entry key="..\:/Android-Project/NoteApp/app/src/main/res/layout/item_folder.xml" value="0.33" />
         <entry key="..\:/Android-Project/NoteApp/app/src/main/res/layout/item_note.xml" value="0.33" />
