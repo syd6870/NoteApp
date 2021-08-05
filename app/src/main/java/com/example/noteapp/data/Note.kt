@@ -12,12 +12,13 @@ import java.text.DateFormat
 @Parcelize
 data class Note(
     val title: String,
-    val content: String="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla aliquet enim erat, et tempor neque porttitor vel. In cursus elit at luctus laoreet. Phasellus quis congue nulla. Integer odio odio, ultrices ut quam consectetur, vestibulum mattis augue. Praesent ornare nunc et ipsum posuere pulvinar.",
-    val folder: String="Note",
+    val content: String = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla aliquet enim erat, et tempor neque porttitor vel. In cursus elit at luctus laoreet. Phasellus quis congue nulla. Integer odio odio, ultrices ut quam consectetur, vestibulum mattis augue. Praesent ornare nunc et ipsum posuere pulvinar.",
+    val folder: String = "Note",
     val lastEditOn: Long = System.currentTimeMillis(),
     val created: Long = System.currentTimeMillis(),
-    val latitude: Float=0.0f,
-    val longitude: Float=0.0f,
+    val latitude: Float = 0.0f,
+    val longitude: Float = 0.0f,
+    val address: String = "Earth",
     val isMuted: Boolean = false,
     val isTracked: Boolean = true,
     val isCompleted: Boolean = false,
@@ -34,7 +35,7 @@ data class Note(
         }
     val createdTime: String
         get() {
-            val simpleTimeFormat = SimpleDateFormat("hh:mm: a", Locale("EN", "IN"))
+            val simpleTimeFormat = SimpleDateFormat("hh:mm a", Locale("EN", "IN"))
             return simpleTimeFormat.format(created)
         }
 

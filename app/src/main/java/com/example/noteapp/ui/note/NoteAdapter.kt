@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.noteapp.data.Note
 import com.example.noteapp.databinding.ItemNoteBinding
 
-class NoteAdapter() : ListAdapter<Note, NoteAdapter.NotesViewHolder>(DiffCallback()) {
+class NoteAdapter(private val listener: onItemClickListener) : ListAdapter<Note, NoteAdapter.NotesViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotesViewHolder {
         val binding = ItemNoteBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -22,8 +22,23 @@ class NoteAdapter() : ListAdapter<Note, NoteAdapter.NotesViewHolder>(DiffCallbac
         holder.bind(currentItem)
     }
 
-    class NotesViewHolder(private val binding: ItemNoteBinding) :
+   inner class NotesViewHolder(private val binding: ItemNoteBinding) :
         RecyclerView.ViewHolder(binding.root) {
+
+        init {
+            binding.apply {
+                root.setOnClickListener{
+                    val position=adapterPosition
+                    if(position!=RecyclerView.NO_POSITION){
+                        val note=getItem(position)
+                        listener.onItemClick(note)
+                    }
+                }
+            }
+        }
+
+
+
         fun bind(note: Note) {
             binding.apply {
                 imageViewLineDesign.imageTintList = ColorStateList.valueOf(Color.RED)
@@ -34,6 +49,12 @@ class NoteAdapter() : ListAdapter<Note, NoteAdapter.NotesViewHolder>(DiffCallbac
 
         }
     }
+
+
+    interface onItemClickListener{
+        fun onItemClick(note: Note)
+    }
+
 
     class DiffCallback : DiffUtil.ItemCallback<Note>() {
         override fun areItemsTheSame(oldItem: Note, newItem: Note) =

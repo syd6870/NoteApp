@@ -5,25 +5,33 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.example.noteapp.R
+import com.example.noteapp.data.Note
+import com.example.noteapp.data.SortOrder
 import com.example.noteapp.databinding.FragmentNotesBinding
 import com.example.noteapp.util.onQueryTextChanged
 import com.google.android.flexbox.*
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
-class NotesFragment : Fragment(R.layout.fragment_notes) {
+class NotesFragment : Fragment(R.layout.fragment_notes),NoteAdapter.onItemClickListener {
     private val viewModel: NoteViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         val binding = FragmentNotesBinding.bind(view)
-        val noteAdapter = NoteAdapter()
+        val noteAdapter = NoteAdapter(this)
         val flexboxLayoutManager = FlexboxLayoutManager(requireContext())
         flexboxLayoutManager.flexDirection = FlexDirection.ROW
         flexboxLayoutManager.flexWrap = FlexWrap.WRAP
@@ -38,12 +46,42 @@ class NotesFragment : Fragment(R.layout.fragment_notes) {
                 layoutManager = flexboxLayoutManager
                 setHasFixedSize(true)
             }
+
+            buttonAddNote.setOnClickListener{
+                viewModel.onAddNewNoteClick()
+            }
         }
+
+
 
         viewModel.notes.observe(viewLifecycleOwner) {
             noteAdapter.submitList(it)
         }
+
+
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.tasksEvent.collect { event->
+                when(event){
+                    is NoteViewModel.NotesEvent.NavigateToAddNoteScreen -> {
+                        val action=NotesFragmentDirections.actionNotesFragmentToAddNewNote()
+                        findNavController().navigate(action)
+                    }
+
+                    is NoteViewModel.NotesEvent.NavigateToViewNoteScreen -> {
+                        val action=NotesFragmentDirections.actionNotesFragmentToViewNoteFragment(event.note)
+                        findNavController().navigate(action)
+                    }
+                }
+            }
+        }
+
+
         setHasOptionsMenu(true)
+    }
+
+
+    override fun onItemClick(note: Note) {
+        viewModel.onNoteSelected(note)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -55,38 +93,50 @@ class NotesFragment : Fragment(R.layout.fragment_notes) {
         searchView.onQueryTextChanged {
             viewModel.searchQuery.value = it
         }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            menu.findItem(R.id.action_hide_completed).isChecked =
+                viewModel.preferenceFlow.first().hideCompleted
+        }
+
+
+
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_sort_by_name -> {
-                viewModel.sortOrder.value=SortOrder.BY_NAME
+                viewModel.onSortOrderSelected(SortOrder.BY_NAME)
                 true
             }
             R.id.action_sort_by_date_created -> {
-                viewModel.sortOrder.value=SortOrder.BY_DATE
+                viewModel.onSortOrderSelected(SortOrder.BY_DATE)
                 true
             }
             R.id.action_hide_completed -> {
                 item.isChecked = !item.isChecked
-                viewModel.hideCompleted.value=item.isChecked
+                viewModel.onHideCompletedClick(item.isChecked)
                 true
             }
-           /* R.id.action_hide_mute -> {
-                item.isChecked = !item.isChecked
-                true
-            }
-            R.id.action_hide_untrack -> {
-                item.isChecked = !item.isChecked
-                true
-            }*/
+            /* R.id.action_hide_mute -> {
+                 item.isChecked = !item.isChecked
+                 true
+             }
+             R.id.action_hide_untrack -> {
+                 item.isChecked = !item.isChecked
+                 true
+             }*/
             R.id.action_delete_completed_task -> {
                 true
             }
             R.id.action_select_light_mode -> {
+                viewModel.onThemeSelected("light")
+                Toast.makeText(requireContext(), "Theme:Light Mode!", Toast.LENGTH_SHORT).show()
                 true
             }
             R.id.action_select_dark_mode -> {
+                viewModel.onThemeSelected("dark")
+                Toast.makeText(requireContext(), "Theme:Dark Mode!", Toast.LENGTH_SHORT)
                 true
             }
             else -> super.onOptionsItemSelected(item)
