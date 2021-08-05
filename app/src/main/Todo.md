@@ -5,6 +5,7 @@
 - [X] Add Menu Bar
 - [ ] Add scrolling Effect on View Notes frag 
 - [ ] Change Linear Layout in ViewNotesFrag to ConstraintLayout
+- [ ] Implement "Save Note" Button on Edit Note/Add note Fragment
 
 ##Changes
 - [ ] Remove Addition of Folder 
@@ -26,11 +27,11 @@
 ##Tests
 - [X] Dummy Notes Visible
 - [X] Notes Search Functionality 
-- [ ] Notes Sort Functionality 
-- [ ] DataStore Value Stored
-- [ ] DataStore Value Read
-- [ ] DataStore Value Write
-- [ ] Dummy Notes
+- [X] Notes Sort Functionality 
+- [X] DataStore Value Stored
+- [X] DataStore Value Read
+- [X] DataStore Value Write
+
 
 
 ##Code
