@@ -60,23 +60,26 @@ class NotesFragment : Fragment(R.layout.fragment_notes) {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_sort_by_name -> {
+                viewModel.sortOrder.value=SortOrder.BY_NAME
                 true
             }
             R.id.action_sort_by_date_created -> {
+                viewModel.sortOrder.value=SortOrder.BY_DATE
                 true
             }
             R.id.action_hide_completed -> {
                 item.isChecked = !item.isChecked
+                viewModel.hideCompleted.value=item.isChecked
                 true
             }
-            R.id.action_hide_mute -> {
+           /* R.id.action_hide_mute -> {
                 item.isChecked = !item.isChecked
                 true
             }
             R.id.action_hide_untrack -> {
                 item.isChecked = !item.isChecked
                 true
-            }
+            }*/
             R.id.action_delete_completed_task -> {
                 true
             }

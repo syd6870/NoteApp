@@ -35,7 +35,7 @@
             android:checkable="true"
             android:title="Hide Completed Tasks"
             app:showAsAction="never" />
-    <item
+  <!--  <item
             android:id="@+id/action_hide_mute"
             android:checkable="true"
             android:title="Hide muted Tasks"
@@ -44,7 +44,7 @@
             android:id="@+id/action_hide_untrack"
             android:checkable="true"
             android:title="Hide untracked Tasks"
-            app:showAsAction="never" />
+            app:showAsAction="never" />-->
 
     <item
             android:id="@+id/action_delete_completed_task"
