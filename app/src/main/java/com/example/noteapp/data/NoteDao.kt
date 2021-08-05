@@ -1,7 +1,6 @@
 package com.example.noteapp.data
 
 import androidx.room.*
-import com.example.noteapp.ui.note.SortOrder
 import kotlinx.coroutines.flow.Flow
 
 @Dao

@@ -3,7 +3,8 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:context="ui.viewNote.ViewNoteFragment">
 
 
     <LinearLayout
@@ -165,7 +166,7 @@
 
             android:id="@+id/nestedScrollView"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-            app:layout_constraintBottom_toTopOf="@+id/floatingActionButton"
+            app:layout_constraintBottom_toTopOf="@+id/fab_edit_note"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintVertical_bias="0.0"
@@ -193,7 +194,7 @@
             android:contentDescription="@string/edit_button_to_edit_current_note"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:id="@+id/floatingActionButton"
+            android:id="@+id/fab_edit_note"
             android:layout_marginBottom="16dp"
             android:layout_marginEnd="16dp"
             app:tint="#FFFFFF"

@@ -9,10 +9,45 @@
             android:id="@+id/notesFragment"
             android:name="com.example.noteapp.ui.note.NotesFragment"
             android:label="fragment_notes"
-            tools:layout="@layout/fragment_notes" />
+            tools:layout="@layout/fragment_notes" >
+        <action
+                android:id="@+id/action_notesFragment_to_addNewNote"
+                app:destination="@id/addNewNote" />
+        <action
+                android:id="@+id/action_notesFragment_to_viewNoteFragment"
+                app:destination="@id/viewNoteFragment" />
+    </fragment>
     <fragment
             android:id="@+id/startFragment"
             android:name="com.example.noteapp.ui.start.StartFragment"
             android:label="fragment_start"
-            tools:layout="@layout/fragment_start" />
+            tools:layout="@layout/fragment_start" >
+        <action
+                android:id="@+id/action_startFragment_to_notesFragment"
+                app:destination="@id/notesFragment" />
+    </fragment>
+    <fragment
+            android:id="@+id/addNewNote"
+            android:name="com.example.noteapp.ui.addEditNote.AddEditNoteFragment"
+            android:label="fragment_add_new_note"
+            tools:layout="@layout/fragment_add_edit_note" >
+        <argument
+                android:name="note"
+                app:argType="com.example.noteapp.data.Note"
+                app:nullable="true"
+                android:defaultValue="@null" />
+    </fragment>
+    <fragment
+            android:id="@+id/viewNoteFragment"
+            android:name="com.example.noteapp.ui.viewNote.ViewNoteFragment"
+            android:label="ViewNoteFragment" >
+        <action
+                android:id="@+id/action_viewNoteFragment_to_addNewNote"
+                app:destination="@id/addNewNote" />
+        <argument
+                android:name="note"
+                app:argType="com.example.noteapp.data.Note"
+                app:nullable="true"
+                android:defaultValue="@null" />
+    </fragment>
 </navigation>
