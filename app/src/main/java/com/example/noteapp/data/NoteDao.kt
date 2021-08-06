@@ -32,6 +32,8 @@ interface NoteDao {
     @Delete
     suspend fun delete(note: Note)
 
+    @Query("DELETE FROM note_table WHERE isCompleted=1")
+    suspend fun deleteCompletedNotes()
 
 
 }

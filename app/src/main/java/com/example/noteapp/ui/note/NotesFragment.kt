@@ -17,6 +17,7 @@ import com.example.noteapp.R
 import com.example.noteapp.data.Note
 import com.example.noteapp.data.SortOrder
 import com.example.noteapp.databinding.FragmentNotesBinding
+import com.example.noteapp.util.exhaustive
 import com.example.noteapp.util.onQueryTextChanged
 import com.google.android.flexbox.*
 import com.google.android.material.snackbar.Snackbar
@@ -69,7 +70,7 @@ class NotesFragment : Fragment(R.layout.fragment_notes),NoteAdapter.onItemClickL
             viewModel.noteEvent.collect { event->
                 when(event){
                     is NoteViewModel.NotesEvent.NavigateToAddNoteScreen -> {
-                        val action=NotesFragmentDirections.actionNotesFragmentToAddNewNote()
+                        val action=NotesFragmentDirections.actionNotesFragmentToAddNewNote(null,"New Note")
                         findNavController().navigate(action)
                     }
 
@@ -80,7 +81,14 @@ class NotesFragment : Fragment(R.layout.fragment_notes),NoteAdapter.onItemClickL
                     is NoteViewModel.NotesEvent.ShowNoteSavedConfirmationMessage -> {
                         Snackbar.make(requireView(),event.msg,Snackbar.LENGTH_SHORT).show()
                     }
-                }
+                    is NoteViewModel.NotesEvent.NavigateToDeleteAllCompleteScreen -> {
+                        val action=NotesFragmentDirections.actionGlobalDeleteAllCompletedDialogFragment()
+                        findNavController().navigate(action)
+                    }
+                    is NoteViewModel.NotesEvent.RecreateActivity -> {
+                        activity?.recreate()
+                    }
+                }.exhaustive
             }
         }
 
@@ -136,6 +144,7 @@ class NotesFragment : Fragment(R.layout.fragment_notes),NoteAdapter.onItemClickL
                  true
              }*/
             R.id.action_delete_completed_task -> {
+                viewModel.onDeleteAllCompletedClick()
                 true
             }
             R.id.action_select_light_mode -> {
