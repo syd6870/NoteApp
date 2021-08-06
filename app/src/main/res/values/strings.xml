@@ -12,7 +12,7 @@
     <string name="pick_time_icon">Pick Time Icon</string>
     <string name="pick_location_icon">Pick Location Icon</string>
     <string name="track">Track</string>
-    <string name="add_note">Add Note</string>
+    <string name="add_note">Save Note</string>
     <string name="add_new_folder_icon">Add new Folder Icon</string>
     <string name="small_design_image">Small Design Image</string>
     <string name="add_new_note">add new note</string>
@@ -23,4 +23,5 @@
     <string name="lorem_ipsum">
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam vel venenatis leo. Praesent posuere dui ac massa convallis scelerisque. Aenean placerat ipsum ante, vitae posuere est vehicula sit amet. Praesent rutrum, nisi et euismod fermentum, eros mauris scelerisque ante, quis iaculis nisi augue vel nisl. Phasellus porta lacinia augue dictum egestas. Nullam feugiat, justo at facilisis pulvinar, tellus nisl pellentesque arcu, et blandit quam ipsum eget orci. Sed ac sodales massa, vel venenatis diam. Sed facilisis justo nunc, a imperdiet urna elementum id. Nam rutrum tellus eget viverra accumsan. Praesent commodo pharetra mauris, eget lacinia tellus bibendum condimentum. Aenean dapibus sem nec elit finibus volutpat et et eros. Suspendisse potenti. Vestibulum tincidunt aliquam elit lacinia congue. Curabitur vestibulum ipsum a massa suscipit, in pellentesque dui dictum.</string>
     <string name="edit_button_to_edit_current_note">edit current note</string>
+    <string name="remind_on">Remind on</string>
 </resources>

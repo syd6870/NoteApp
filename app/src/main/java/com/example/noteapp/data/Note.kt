@@ -3,7 +3,7 @@ package com.example.noteapp.data
 import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 import java.text.SimpleDateFormat
 import java.util.*
 import java.text.DateFormat
@@ -16,16 +16,30 @@ data class Note(
     val folder: String = "Note",
     val lastEditOn: Long = System.currentTimeMillis(),
     val created: Long = System.currentTimeMillis(),
+    val remindOn: Long = System.currentTimeMillis() + 86400000L, // 8.64e+7 == 1 day in milli sec
     val latitude: Float = 0.0f,
     val longitude: Float = 0.0f,
     val address: String = "Earth",
-    val isMuted: Boolean = false,
+    //val isMuted: Boolean = false,
     val isTracked: Boolean = true,
     val isCompleted: Boolean = false,
     @PrimaryKey(autoGenerate = true) val id: Int = 0
 ) : Parcelable {
     val lastEditDateFormat: String
         get() = DateFormat.getDateTimeInstance().format(lastEditOn)
+
+
+
+    val reminderDate: String
+        get() {
+            val simpleDateFormat = SimpleDateFormat("dd/MM/yyyy", Locale("EN", "IN"))
+            return simpleDateFormat.format(remindOn)
+        }
+    val reminderTime: String
+        get() {
+            val simpleTimeFormat = SimpleDateFormat("hh:mm a", Locale("EN", "IN"))
+            return simpleTimeFormat.format(remindOn)
+        }
 
 
     val createdDate: String
