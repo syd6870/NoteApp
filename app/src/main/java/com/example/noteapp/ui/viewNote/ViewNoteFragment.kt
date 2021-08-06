@@ -42,7 +42,7 @@ class ViewNoteFragment : Fragment(R.layout.fragment_view_note) {
             viewModel.notesEvent.collect { event->
                 when(event){
                     is ViewNoteViewModel.NotesEvent.NavigateToEditNoteScreen -> {
-                        val action=ViewNoteFragmentDirections.actionViewNoteFragmentToAddNewNote(event.note)
+                        val action=ViewNoteFragmentDirections.actionViewNoteFragmentToAddNewNote(event.note,"Edit Note")
                         findNavController().navigate(action)
 
                     }

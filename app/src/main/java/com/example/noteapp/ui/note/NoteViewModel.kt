@@ -51,6 +51,8 @@ class NoteViewModel @ViewModelInject constructor(
 
     fun onThemeSelected(theme:String)= viewModelScope.launch {
         preferencesManager.updateTheme(theme )
+        noteEventChannel.send(NotesEvent.RecreateActivity)
+
     }
 
     fun onNoteSelected(note: Note)=viewModelScope.launch{
@@ -73,10 +75,16 @@ class NoteViewModel @ViewModelInject constructor(
         noteEventChannel.send(NotesEvent.ShowNoteSavedConfirmationMessage(msg))
     }
 
+    fun onDeleteAllCompletedClick()=viewModelScope.launch {
+        noteEventChannel.send(NotesEvent.NavigateToDeleteAllCompleteScreen)
+    }
+
     sealed class NotesEvent{
         object NavigateToAddNoteScreen :NotesEvent()
         data class NavigateToViewNoteScreen(val note:Note):NotesEvent()
         data class ShowNoteSavedConfirmationMessage(val msg:String):NotesEvent()
+        object NavigateToDeleteAllCompleteScreen:NotesEvent()
+        object RecreateActivity:NotesEvent()
     }
 
 
