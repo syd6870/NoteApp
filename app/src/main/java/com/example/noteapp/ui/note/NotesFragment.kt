@@ -8,6 +8,8 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResult
+import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -17,6 +19,7 @@ import com.example.noteapp.data.SortOrder
 import com.example.noteapp.databinding.FragmentNotesBinding
 import com.example.noteapp.util.onQueryTextChanged
 import com.google.android.flexbox.*
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.first
@@ -52,7 +55,10 @@ class NotesFragment : Fragment(R.layout.fragment_notes),NoteAdapter.onItemClickL
             }
         }
 
-
+        setFragmentResultListener("add_edit_request"){_,bundle ->
+            val result=bundle.getInt("add_edit_result")
+            viewModel.onAddEditResult(result)
+        }
 
         viewModel.notes.observe(viewLifecycleOwner) {
             noteAdapter.submitList(it)
@@ -60,7 +66,7 @@ class NotesFragment : Fragment(R.layout.fragment_notes),NoteAdapter.onItemClickL
 
 
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-            viewModel.tasksEvent.collect { event->
+            viewModel.noteEvent.collect { event->
                 when(event){
                     is NoteViewModel.NotesEvent.NavigateToAddNoteScreen -> {
                         val action=NotesFragmentDirections.actionNotesFragmentToAddNewNote()
@@ -70,6 +76,9 @@ class NotesFragment : Fragment(R.layout.fragment_notes),NoteAdapter.onItemClickL
                     is NoteViewModel.NotesEvent.NavigateToViewNoteScreen -> {
                         val action=NotesFragmentDirections.actionNotesFragmentToViewNoteFragment(event.note)
                         findNavController().navigate(action)
+                    }
+                    is NoteViewModel.NotesEvent.ShowNoteSavedConfirmationMessage -> {
+                        Snackbar.make(requireView(),event.msg,Snackbar.LENGTH_SHORT).show()
                     }
                 }
             }

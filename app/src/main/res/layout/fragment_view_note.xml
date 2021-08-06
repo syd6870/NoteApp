@@ -123,6 +123,34 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     style="@style/TextViewNoteBody"
+                    android:text="@string/remind_on"
+                    android:textSize="14sp"
+                    android:textColor="#CC000000"
+                    android:layout_weight="3"
+                    android:fontFamily="@font/open_sans" />
+
+            <TextView
+                    android:id="@+id/textview_view_note_remind_on"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    tools:text="11:00 PM    14 May 2021"
+                    android:textColor="#000000"
+                    android:layout_weight="7"
+                    android:fontFamily="@font/open_sans" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:weightSum="10">
+
+            <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    style="@style/TextViewNoteBody"
                     android:text="@string/view_note_title_tracked"
                     android:textColor="#CC000000"
                     android:layout_weight="3"
@@ -140,6 +168,9 @@
 
 
         </LinearLayout>
+
+
+
 
 
     </LinearLayout>

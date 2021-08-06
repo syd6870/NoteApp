@@ -28,7 +28,6 @@ abstract class NoteDatabase : RoomDatabase() {
             applicationScope.launch {
                 dao.insert(Note("Dummy Title"))
                 dao.insert(Note("Dummy Title2",isCompleted = true))
-                dao.insert(Note("Dummy Title3",isMuted = true))
                 dao.insert(Note("Dummy Title4",isTracked = true))
                 dao.insert(Note("Dummy Title5"))
                 dao.insert(Note("Dummy Title6"))
