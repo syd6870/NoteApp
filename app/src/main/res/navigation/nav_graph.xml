@@ -62,7 +62,7 @@
                 app:nullable="true"
                 android:defaultValue="@null" />
     </fragment>
-    <fragment
+    <dialog
             android:id="@+id/deleteAllCompletedDialogFragment"
             android:name="com.example.noteapp.ui.deleteAllCompleted.DeleteAllCompletedDialogFragment"
             android:label="DeleteAllCompletedDialogFragment" />
