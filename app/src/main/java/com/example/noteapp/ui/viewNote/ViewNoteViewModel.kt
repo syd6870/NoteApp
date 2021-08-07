@@ -13,6 +13,7 @@ import kotlinx.coroutines.launch
 class ViewNoteViewModel @ViewModelInject constructor(
     @Assisted private val state: SavedStateHandle
 ) : ViewModel() {
+    private val currentDatePlus1 = System.currentTimeMillis() + 86400000L;
     private val noteEventChannel = Channel<NotesEvent>()
     val notesEvent = noteEventChannel.receiveAsFlow()
 
@@ -20,54 +21,62 @@ class ViewNoteViewModel @ViewModelInject constructor(
 
     var noteTitle = state.get<String>("noteTitle") ?: note?.title ?: ""
         set(value) {
-            field=value
-            state.set("noteTitle",value)
+            field = value
+            state.set("noteTitle", value)
         }
 
     var noteContent = state.get<String>("noteContent") ?: note?.content ?: ""
         set(value) {
-            field=value
-            state.set("noteContent",value)
+            field = value
+            state.set("noteContent", value)
         }
 
     var noteTime = state.get<String>("noteTime") ?: note?.createdTime ?: ""
         set(value) {
-            field=value
-            state.set("noteTime",value)
+            field = value
+            state.set("noteTime", value)
         }
 
 
     var noteDate = state.get<String>("noteDate") ?: note?.createdDate ?: ""
         set(value) {
-            field=value
-            state.set("noteDate",value)
+            field = value
+            state.set("noteDate", value)
         }
 
     var noteLocation = state.get<String>("noteLocation") ?: note?.address ?: ""
         set(value) {
-            field=value
-            state.set("noteLocation",value)
+            field = value
+            state.set("noteLocation", value)
         }
 
     var noteTracked = state.get<Boolean>("noteTracked") ?: note?.isTracked ?: false
         set(value) {
-            field=value
-            state.set("noteTracked",value)
+            field = value
+            state.set("noteTracked", value)
         }
 
-    var noteLastEdit = state.get<Long>("noteLastEdit") ?: note?.lastEditOn ?: note?.created ?: System.currentTimeMillis()
+    var noteLastEdit = state.get<Long>("noteLastEdit") ?: note?.lastEditOn ?: note?.created
+    ?: System.currentTimeMillis()
         set(value) {
-            field=value
-            state.set("noteLastEdit",value)
+            field = value
+            state.set("noteLastEdit", value)
         }
 
-    private val noteTemp=note ?: Note("Empty")
+    var noteRemindLong =
+        state.get<Long>("noteReminderLong") ?: note?.remindOn ?: currentDatePlus1
+        set(value) {
+            field = value
+            state.set("noteReminderLong", value)
+        }
 
-    fun onEditNoteClick()=viewModelScope.launch{
+    private val noteTemp = note ?: Note("Empty")
+
+    fun onEditNoteClick() = viewModelScope.launch {
         noteEventChannel.send(NotesEvent.NavigateToEditNoteScreen(noteTemp))
     }
 
-    sealed class NotesEvent{
-        data class NavigateToEditNoteScreen(val note:Note): NotesEvent()
+    sealed class NotesEvent {
+        data class NavigateToEditNoteScreen(val note: Note) : NotesEvent()
     }
 }
