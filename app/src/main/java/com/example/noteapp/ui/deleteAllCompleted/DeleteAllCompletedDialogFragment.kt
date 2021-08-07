@@ -9,16 +9,15 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class DeleteAllCompletedDialogFragment : DialogFragment() {
-private val viewModel:DeleteAllCompletedViewModel by viewModels()
+    private val viewModel: DeleteAllCompletedViewModel by viewModels()
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog =
         AlertDialog.Builder(requireContext())
             .setTitle("Confirm deletion")
             .setMessage("Do you really want to delete all completed task")
             .setNegativeButton("Cancel", null)
-            .setPositiveButton("Yes") {_,_->
+            .setPositiveButton("Yes") { _, _ ->
                 viewModel.onConfirmClick()
             }
             .create()
-
 }
