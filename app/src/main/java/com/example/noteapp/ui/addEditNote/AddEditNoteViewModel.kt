@@ -9,6 +9,7 @@ import com.example.noteapp.data.Note
 import com.example.noteapp.data.NoteDao
 import com.example.noteapp.ui.ADD_NOTE_RESULT_OK
 import com.example.noteapp.ui.EDIT_NOTE_RESULT_OK
+import com.example.noteapp.ui.folder.Folder
 import com.example.noteapp.util.toTime
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -37,7 +38,8 @@ class AddEditNoteViewModel @ViewModelInject constructor(
             state.set("noteContent", value)
         }
 
-    var noteRemindLong = state.get<Long>("noteReminderLong") ?: note?.remindOn ?: currentDatePlus1
+    private var noteRemindLong =
+        state.get<Long>("noteReminderLong") ?: note?.remindOn ?: currentDatePlus1
         set(value) {
             field = value
             state.set("noteReminderLong", value)
@@ -57,14 +59,14 @@ class AddEditNoteViewModel @ViewModelInject constructor(
             state.set("noteReminderDate", value)
         }
 
-    var noteLocationlatitude =
+    private var noteLocationLatitude =
         state.get<Float>("noteLocationLatitude") ?: note?.latitude ?: 0.0f
         set(value) {
             field = value
             state.set("noteLocationLatitude", value)
         }
 
-    var noteLocationlongitude =
+    private var noteLocationLongitude =
         state.get<Float>("noteLocationLongitude") ?: note?.longitude ?: 0.0f
         set(value) {
             field = value
@@ -81,6 +83,12 @@ class AddEditNoteViewModel @ViewModelInject constructor(
         set(value) {
             field = value
             state.set("noteTracked", value)
+        }
+
+    var noteFolder = state.get<String>("noteFolder") ?: note?.folder ?: Folder.NOTE.value
+        set(value) {
+            field = value
+            state.set("noteFolder", value)
         }
 
     private val addEditNoteEventChannel = Channel<AddEditNoteEvent>()
@@ -105,11 +113,12 @@ class AddEditNoteViewModel @ViewModelInject constructor(
                 title = noteTitle,
                 content = noteContent,
                 remindOn = noteRemindLong,
-                latitude = noteLocationlatitude,
-                longitude = noteLocationlongitude,
+                latitude = noteLocationLatitude,
+                longitude = noteLocationLongitude,
                 address = noteAddress,
                 lastEditOn = currentTime,
-                isTracked = noteTracked
+                isTracked = noteTracked,
+                folder = noteFolder
             )
 
             updateNote(updatedNote)
@@ -121,12 +130,12 @@ class AddEditNoteViewModel @ViewModelInject constructor(
 
     private fun createNote(note: Note) = viewModelScope.launch {
         noteDao.insert(note)
-        addEditNoteEventChannel.send(AddEditNoteEvent.NavigateBackWithResult(ADD_NOTE_RESULT_OK))
+        addEditNoteEventChannel.send(AddEditNoteEvent.NavigateBackWithResult(ADD_NOTE_RESULT_OK,noteFolder))
     }
 
     private fun updateNote(note: Note) = viewModelScope.launch {
         noteDao.update(note)
-        addEditNoteEventChannel.send(AddEditNoteEvent.NavigateBackWithResult(EDIT_NOTE_RESULT_OK))
+        addEditNoteEventChannel.send(AddEditNoteEvent.NavigateBackWithResult(EDIT_NOTE_RESULT_OK,noteFolder))
     }
 
     private fun showInvalidInputMessage(message: String) = viewModelScope.launch {
@@ -135,7 +144,8 @@ class AddEditNoteViewModel @ViewModelInject constructor(
 
     sealed class AddEditNoteEvent {
         data class showInvalidInputMessage(val msg: String) : AddEditNoteEvent()
-        data class NavigateBackWithResult(val result: Int) : AddEditNoteEvent()
+        data class NavigateBackWithResult(val result: Int, val folderName: String) :
+            AddEditNoteEvent()
     }
 
 

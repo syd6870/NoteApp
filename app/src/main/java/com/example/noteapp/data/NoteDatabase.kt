@@ -4,6 +4,7 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.noteapp.di.ApplicationScope
+import com.example.noteapp.ui.folder.Folder
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -32,6 +33,9 @@ abstract class NoteDatabase : RoomDatabase() {
                 dao.insert(Note("Dummy Title5"))
                 dao.insert(Note("Dummy Title6"))
                 dao.insert(Note("Dummy Title7"))
+                dao.insert(Note("Dummy Title8",folder = Folder.READING.value))
+                dao.insert(Note("Dummy Title9",folder = Folder.READING.value))
+                dao.insert(Note("Dummy Title10",folder = Folder.READING.value))
             }
 
         }

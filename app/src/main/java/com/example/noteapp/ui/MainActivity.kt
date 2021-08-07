@@ -17,7 +17,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
-    private val preferencesManager=PreferencesManager(this)
+    //private val preferencesManager=PreferencesManager(this@MainActivity)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         //setTheme(getTheme())
