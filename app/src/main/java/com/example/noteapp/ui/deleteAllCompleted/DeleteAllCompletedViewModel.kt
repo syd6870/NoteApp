@@ -15,4 +15,5 @@ class DeleteAllCompletedViewModel @ViewModelInject constructor(
     fun onConfirmClick() = applicationScope.launch {
         noteDao.deleteCompletedNotes()
     }
+
 }

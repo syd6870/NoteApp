@@ -48,6 +48,9 @@
                 app:destination="@id/notesFragment"
                 app:popUpTo="@id/notesFragment"
                 app:popUpToInclusive="true" />
+        <action
+                android:id="@+id/action_addNewNote_to_datePickerFragment"
+                app:destination="@id/datePickerFragment" />
     </fragment>
     <fragment
             android:id="@+id/viewNoteFragment"
@@ -67,4 +70,12 @@
             android:name="com.example.noteapp.ui.deleteAllCompleted.DeleteAllCompletedDialogFragment"
             android:label="DeleteAllCompletedDialogFragment" />
     <action android:id="@+id/action_global_deleteAllCompletedDialogFragment" app:destination="@id/deleteAllCompletedDialogFragment" />
+    <dialog
+            android:id="@+id/datePickerFragment"
+            android:name="com.example.noteapp.ui.dialogFragment.DatePickerFragment"
+            android:label="DatePickerFragment" >
+        <argument
+                android:name="dateListener"
+                app:argType="com.example.noteapp.ui.dialogFragment.DateListenerInterface" />
+    </dialog>
 </navigation>

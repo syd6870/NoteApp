@@ -1,7 +1,12 @@
 package com.example.noteapp.ui.addEditNote
 
+import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import android.widget.DatePicker
+import android.widget.TimePicker
 import androidx.core.os.bundleOf
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
@@ -12,32 +17,54 @@ import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.example.noteapp.R
 import com.example.noteapp.databinding.FragmentAddEditNoteBinding
+import com.example.noteapp.ui.dialogFragment.DateListenerInterface
+import com.example.noteapp.util.exhaustive
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
+import java.util.*
 
 @AndroidEntryPoint
-class AddEditNoteFragment : Fragment(R.layout.fragment_add_edit_note) {
+class AddEditNoteFragment : Fragment(R.layout.fragment_add_edit_note),
+    DatePickerDialog.OnDateSetListener , TimePickerDialog.OnTimeSetListener {
     private val viewModel: AddEditNoteViewModel by viewModels()
+    private val TAG = "AddEditNoteFragment"
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val calendar = Calendar.getInstance()
         val binding = FragmentAddEditNoteBinding.bind(view)
         binding.apply {
             tilEditNoteTitle.editText?.setText(viewModel.noteTitle)
             tilEditNoteContent.editText?.setText(viewModel.noteContent)
-            textViewEditNoteTime.text = viewModel.noteRemindTime
-            textViewEditNoteDate.text = viewModel.noteRemindDate
+            viewModel.mutableTime.observe(viewLifecycleOwner) {
+                textViewEditNoteTime.text = it
+            }
+            viewModel.mutableDate.observe(viewLifecycleOwner) {
+                textViewEditNoteDate.text = it
+            }
             textViewEditNoteLocation.text = viewModel.noteAddress
             checkBoxIsTracked.isChecked = viewModel.noteTracked
             checkBoxIsTracked.jumpDrawablesToCurrentState() //avoid Animation
 
             buttonEditNotePickDate.setOnClickListener {
-                // TODO: 06-08-2021
+                //viewModel.onPickDateClick()
+                val year = calendar.get(Calendar.YEAR)
+                val month = calendar.get(Calendar.MONTH)
+                val day = calendar.get(Calendar.DAY_OF_MONTH)
+                DatePickerDialog(
+                    requireContext(),
+                    this@AddEditNoteFragment,
+                    year,
+                    month,
+                    day
+                ).show()
             }
             buttonEditNotePickTime.setOnClickListener {
-                // TODO: 06-08-2021
+                val hour = calendar.get(Calendar.HOUR_OF_DAY)
+                val minute = calendar.get(Calendar.MINUTE)
+                TimePickerDialog(context,this@AddEditNoteFragment,hour,minute,false).show()
             }
             buttonEditNotePickLocation.setOnClickListener {
                 // TODO: 06-08-2021
@@ -51,8 +78,8 @@ class AddEditNoteFragment : Fragment(R.layout.fragment_add_edit_note) {
                 viewModel.noteContent = it.toString()
             }
 
-            checkBoxIsTracked.setOnCheckedChangeListener{_,isChecked->
-                viewModel.noteTracked=isChecked
+            checkBoxIsTracked.setOnCheckedChangeListener { _, isChecked ->
+                viewModel.noteTracked = isChecked
             }
 
             buttonSaveNote.setOnClickListener {
@@ -62,7 +89,7 @@ class AddEditNoteFragment : Fragment(R.layout.fragment_add_edit_note) {
 
 
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-            viewModel.addEditNoteEvent.collect{event->
+            viewModel.addEditNoteEvent.collect { event ->
                 when (event) {
                     is AddEditNoteViewModel.AddEditNoteEvent.NavigateBackWithResult -> {
                         binding.tilEditNoteTitle.clearFocus()
@@ -72,16 +99,35 @@ class AddEditNoteFragment : Fragment(R.layout.fragment_add_edit_note) {
                             bundleOf("add_edit_result" to event.result)
                         )
                         //findNavController().popBackStack()
-                        val action=AddEditNoteFragmentDirections.actionAddNewNoteToNotesFragment(event.folderName)
+                        val action =
+                            AddEditNoteFragmentDirections.actionAddNewNoteToNotesFragment(event.folderName)
                         findNavController().navigate(action)
 
 
                     }
                     is AddEditNoteViewModel.AddEditNoteEvent.showInvalidInputMessage -> {
-                        Snackbar.make(requireView(),event.msg,Snackbar.LENGTH_LONG).show()
+                        Snackbar.make(requireView(), event.msg, Snackbar.LENGTH_LONG).show()
                     }
-                }
+                    is AddEditNoteViewModel.AddEditNoteEvent.NavigateToDatePicker -> {
+                        val action =
+                            AddEditNoteFragmentDirections.actionAddNewNoteToDatePickerFragment(event.listener)
+                        findNavController().navigate(action)
+                    }
+                    is AddEditNoteViewModel.AddEditNoteEvent.NavigateToTimePicker -> TODO()
+                }.exhaustive
             }
         }
+
+
+    }
+
+    override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
+        Log.d(TAG, "onDateSet: $dayOfMonth/${month}/$year")
+        viewModel.noteRemindDate = "$dayOfMonth/${month}/$year"
+        Snackbar.make(requireView(), "$dayOfMonth/${month}/$year", Snackbar.LENGTH_LONG).show()
+    }
+
+    override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
+        viewModel.noteRemindTime = "$hourOfDay : $minute"
     }
 }

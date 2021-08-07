@@ -33,6 +33,7 @@ class ViewNoteFragment : Fragment(R.layout.fragment_view_note) {
             textviewViewNoteModified.text="${viewModel.noteLastEdit.toTime()} \t ${viewModel.noteLastEdit.toDate()}"
             textviewViewNoteLocation.text=viewModel.noteLocation
             textviewViewNoteTrack.text=viewModel.noteTracked.toString()
+            textviewViewNoteRemindOn.text="${viewModel.noteRemindLong.toTime()} \t ${viewModel.noteRemindLong.toDate()}"
             fabEditNote.setOnClickListener{
                 viewModel.onEditNoteClick()
             }

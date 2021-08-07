@@ -1,19 +1,22 @@
 package com.example.noteapp.ui.addEditNote
 
+import android.util.Log
+import android.widget.DatePicker
 import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.example.noteapp.data.Note
 import com.example.noteapp.data.NoteDao
 import com.example.noteapp.ui.ADD_NOTE_RESULT_OK
 import com.example.noteapp.ui.EDIT_NOTE_RESULT_OK
+import com.example.noteapp.ui.dialogFragment.DateListenerInterface
 import com.example.noteapp.ui.folder.Folder
 import com.example.noteapp.util.toTime
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.*
 
 class AddEditNoteViewModel @ViewModelInject constructor(
     private val noteDao: NoteDao,
@@ -50,6 +53,7 @@ class AddEditNoteViewModel @ViewModelInject constructor(
         set(value) {
             field = value
             state.set("noteReminderTime", value)
+            mutableTime.value = value
         }
 
     var noteRemindDate =
@@ -57,6 +61,7 @@ class AddEditNoteViewModel @ViewModelInject constructor(
         set(value) {
             field = value
             state.set("noteReminderDate", value)
+            mutableDate.value = value
         }
 
     private var noteLocationLatitude =
@@ -91,10 +96,19 @@ class AddEditNoteViewModel @ViewModelInject constructor(
             state.set("noteFolder", value)
         }
 
+
+    val mutableDate = MutableLiveData(noteRemindDate)
+    val mutableTime = MutableLiveData(noteRemindTime)
+
     private val addEditNoteEventChannel = Channel<AddEditNoteEvent>()
     val addEditNoteEvent = addEditNoteEventChannel.receiveAsFlow()
 
     fun onSaveClick() {
+        // FIXME: 08-08-2021  
+        val sdf = SimpleDateFormat("hh:mm\tdd/MM/yyyy", Locale("EN", "IN"))
+        Log.d(TAG, "onSaveClick: ${mutableTime.value}\t${mutableDate.value}")
+        noteRemindLong = sdf.format("${mutableTime.value}\t${mutableDate.value}").toLong()
+
         if (noteTitle.isBlank()) {
             showInvalidInputMessage("Title cannot be Empty")
             return
@@ -130,22 +144,46 @@ class AddEditNoteViewModel @ViewModelInject constructor(
 
     private fun createNote(note: Note) = viewModelScope.launch {
         noteDao.insert(note)
-        addEditNoteEventChannel.send(AddEditNoteEvent.NavigateBackWithResult(ADD_NOTE_RESULT_OK,noteFolder))
+        addEditNoteEventChannel.send(
+            AddEditNoteEvent.NavigateBackWithResult(
+                ADD_NOTE_RESULT_OK,
+                noteFolder
+            )
+        )
     }
 
     private fun updateNote(note: Note) = viewModelScope.launch {
         noteDao.update(note)
-        addEditNoteEventChannel.send(AddEditNoteEvent.NavigateBackWithResult(EDIT_NOTE_RESULT_OK,noteFolder))
+        addEditNoteEventChannel.send(
+            AddEditNoteEvent.NavigateBackWithResult(
+                EDIT_NOTE_RESULT_OK,
+                noteFolder
+            )
+        )
     }
 
     private fun showInvalidInputMessage(message: String) = viewModelScope.launch {
         addEditNoteEventChannel.send(AddEditNoteEvent.showInvalidInputMessage(message))
     }
 
+    fun onPickDateClick() = viewModelScope.launch {
+        val listener = object : DateListenerInterface {
+            override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
+                noteRemindDate = "$dayOfMonth/${month}/$year"
+                Log.d(TAG, "onDateSet: $dayOfMonth/${month}/$year")
+            }
+        }
+
+        addEditNoteEventChannel.send(AddEditNoteEvent.NavigateToDatePicker(listener))
+    }
+
     sealed class AddEditNoteEvent {
         data class showInvalidInputMessage(val msg: String) : AddEditNoteEvent()
         data class NavigateBackWithResult(val result: Int, val folderName: String) :
             AddEditNoteEvent()
+
+        data class NavigateToDatePicker(val listener: DateListenerInterface) : AddEditNoteEvent();
+        data class NavigateToTimePicker(val listener: DateListenerInterface) : AddEditNoteEvent();
     }
 
 
