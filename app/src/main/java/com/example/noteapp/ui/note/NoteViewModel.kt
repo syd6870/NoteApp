@@ -25,6 +25,7 @@ class NoteViewModel @ViewModelInject constructor(
     private val noteEventChannel = Channel<NotesEvent>()
     val noteEvent = noteEventChannel.receiveAsFlow()
 
+    private val folderName=state.get<String>("title") ?: "Note"
     val searchQuery = state.getLiveData("searchQuery","")
 
     val preferenceFlow=preferencesManager.preferenceFlow
@@ -35,7 +36,7 @@ class NoteViewModel @ViewModelInject constructor(
     ) { query, filterPreference ->
         Pair(query, filterPreference)
     }.flatMapLatest { (query, filterPreference) ->
-            noteDao.getNotes(query, filterPreference.sortOrder,filterPreference.hideCompleted)
+            noteDao.getNotes(query, filterPreference.sortOrder,filterPreference.hideCompleted,folderName)
         }
 
     val notes = taskFlow.asLiveData()

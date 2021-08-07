@@ -11,4 +11,6 @@
     <color name="card_bg_color">#f0f0f0</color>
     <color name="note_date">#505050</color>
     <color name="add_note_bg">#f4f4f4</color>
+
+    <color name="folder_color">#000000</color>
 </resources>

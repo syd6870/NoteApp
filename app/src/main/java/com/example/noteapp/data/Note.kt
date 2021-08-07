@@ -3,6 +3,7 @@ package com.example.noteapp.data
 import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.example.noteapp.ui.folder.Folder
 import kotlinx.parcelize.Parcelize
 import java.text.SimpleDateFormat
 import java.util.*
@@ -13,7 +14,7 @@ import java.text.DateFormat
 data class Note(
     val title: String,
     val content: String = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla aliquet enim erat, et tempor neque porttitor vel. In cursus elit at luctus laoreet. Phasellus quis congue nulla. Integer odio odio, ultrices ut quam consectetur, vestibulum mattis augue. Praesent ornare nunc et ipsum posuere pulvinar.",
-    val folder: String = "Note",
+    val folder: String = Folder.NOTE.value,
     val lastEditOn: Long = System.currentTimeMillis(),
     val created: Long = System.currentTimeMillis(),
     val remindOn: Long = System.currentTimeMillis() + 86400000L, // 8.64e+7 == 1 day in milli sec
