@@ -104,7 +104,7 @@ class AddEditNoteViewModel @ViewModelInject constructor(
     val addEditNoteEvent = addEditNoteEventChannel.receiveAsFlow()
 
     fun onSaveClick() {
-        
+
         val sdf = SimpleDateFormat("hh:mm a dd/MM/yyyy", Locale("EN", "IN"))
         val date: Date = sdf.parse("${mutableTime.value} ${mutableDate.value}") ?: Date()
         noteRemindLong = date.time
