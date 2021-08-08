@@ -82,6 +82,7 @@ class AddEditNoteViewModel @ViewModelInject constructor(
         set(value) {
             field = value
             state.set("noteAddress", value)
+            mutableAddress.value = value
         }
 
     var noteTracked = state.get<Boolean>("noteTracked") ?: note?.isTracked ?: false
@@ -99,6 +100,7 @@ class AddEditNoteViewModel @ViewModelInject constructor(
 
     val mutableDate = MutableLiveData(noteRemindDate)
     val mutableTime = MutableLiveData(noteRemindTime)
+    val mutableAddress = MutableLiveData(noteAddress)
 
     private val addEditNoteEventChannel = Channel<AddEditNoteEvent>()
     val addEditNoteEvent = addEditNoteEventChannel.receiveAsFlow()
@@ -168,7 +170,7 @@ class AddEditNoteViewModel @ViewModelInject constructor(
         addEditNoteEventChannel.send(AddEditNoteEvent.showInvalidInputMessage(message))
     }
 
-    fun onPickDateClick() = viewModelScope.launch {
+    /*fun onPickDateClick() = viewModelScope.launch {
         val listener = object : DateListenerInterface {
             override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
                 noteRemindDate = "$dayOfMonth/${month}/$year"
@@ -177,6 +179,12 @@ class AddEditNoteViewModel @ViewModelInject constructor(
         }
 
         addEditNoteEventChannel.send(AddEditNoteEvent.NavigateToDatePicker(listener))
+    }*/
+
+    fun onChooseLocationClick() = test()
+
+    private fun test()=viewModelScope.launch {
+        addEditNoteEventChannel.send(AddEditNoteEvent.NavigateToMapFragment)
     }
 
     sealed class AddEditNoteEvent {
@@ -184,8 +192,9 @@ class AddEditNoteViewModel @ViewModelInject constructor(
         data class NavigateBackWithResult(val result: Int, val folderName: String) :
             AddEditNoteEvent()
 
-        data class NavigateToDatePicker(val listener: DateListenerInterface) : AddEditNoteEvent();
-        data class NavigateToTimePicker(val listener: DateListenerInterface) : AddEditNoteEvent();
+        object NavigateToMapFragment : AddEditNoteEvent()
+        data class NavigateToDatePicker(val listener: DateListenerInterface) : AddEditNoteEvent()
+        data class NavigateToTimePicker(val listener: DateListenerInterface) : AddEditNoteEvent()
     }
 
 

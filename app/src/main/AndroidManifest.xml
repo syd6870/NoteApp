@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
         package="com.example.noteapp">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+
     <application
             android:name=".NoteApplication"
             android:allowBackup="true"
@@ -20,6 +24,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <meta-data
+                android:name="com.here.sdk.access_key_id"
+                android:value="ot2JeN66MhPK29RoZaZwxw" />
+        <meta-data
+                android:name="com.here.sdk.access_key_secret"
+                android:value="pb13e0iIhFKksN_BEAqIDOCRZwCvTEqns2rqJtZUh-E5bgS68XXcloV6RpqG4bu5TBG-987kdJFskiME0jBqgg" />
+
     </application>
 
 </manifest>

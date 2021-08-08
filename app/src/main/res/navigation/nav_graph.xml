@@ -51,6 +51,9 @@
         <action
                 android:id="@+id/action_addNewNote_to_datePickerFragment"
                 app:destination="@id/datePickerFragment" />
+        <action
+                android:id="@+id/action_addNewNote_to_mapFragment"
+                app:destination="@id/mapFragment" />
     </fragment>
     <fragment
             android:id="@+id/viewNoteFragment"
@@ -78,4 +81,9 @@
                 android:name="dateListener"
                 app:argType="com.example.noteapp.ui.dialogFragment.DateListenerInterface" />
     </dialog>
+    <fragment
+            android:id="@+id/mapFragment"
+            android:name="com.example.noteapp.ui.map.MapFragment"
+            android:label="fragment_map"
+            tools:layout="@layout/fragment_map" />
 </navigation>
