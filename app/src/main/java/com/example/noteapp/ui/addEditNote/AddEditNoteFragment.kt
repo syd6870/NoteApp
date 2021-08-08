@@ -45,7 +45,9 @@ class AddEditNoteFragment : Fragment(R.layout.fragment_add_edit_note),
             viewModel.mutableDate.observe(viewLifecycleOwner) {
                 textViewEditNoteDate.text = it
             }
-            textViewEditNoteLocation.text = viewModel.noteAddress
+            viewModel.mutableAddress.observe(viewLifecycleOwner) {
+                textViewEditNoteLocation.text = it
+            }
             checkBoxIsTracked.isChecked = viewModel.noteTracked
             checkBoxIsTracked.jumpDrawablesToCurrentState() //avoid Animation
 
@@ -92,6 +94,9 @@ class AddEditNoteFragment : Fragment(R.layout.fragment_add_edit_note),
         setFragmentResultListener("map_result") { _, bundle ->
             val result = bundle.getParcelable<MapData>("map_data")
             Log.d(TAG, "onFragResult: $result")
+            viewModel.noteAddress = result?.address ?: "Earth"
+            viewModel.noteLocationLatitude = result?.latitude?.toFloat() ?: 0.0F
+            viewModel.noteLocationLongitude = result?.longitude?.toFloat() ?: 0.0F
 
 
         }
