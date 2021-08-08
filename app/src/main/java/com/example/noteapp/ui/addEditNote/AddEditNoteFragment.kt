@@ -11,13 +11,13 @@ import androidx.core.os.bundleOf
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
+import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.example.noteapp.R
 import com.example.noteapp.databinding.FragmentAddEditNoteBinding
-import com.example.noteapp.ui.dialogFragment.DateListenerInterface
+import com.example.noteapp.ui.map.MapData
 import com.example.noteapp.util.exhaustive
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -68,6 +68,7 @@ class AddEditNoteFragment : Fragment(R.layout.fragment_add_edit_note),
                 TimePickerDialog(context, this@AddEditNoteFragment, hour, minute, false).show()
             }
             buttonEditNotePickLocation.setOnClickListener {
+                viewModel.onChooseLocationClick()
                 // TODO: 06-08-2021
             }
 
@@ -88,6 +89,12 @@ class AddEditNoteFragment : Fragment(R.layout.fragment_add_edit_note),
             }
         }
 
+        setFragmentResultListener("map_result") { _, bundle ->
+            val result = bundle.getParcelable<MapData>("map_data")
+            Log.d(TAG, "onFragResult: $result")
+
+
+        }
 
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.addEditNoteEvent.collect { event ->
@@ -114,7 +121,12 @@ class AddEditNoteFragment : Fragment(R.layout.fragment_add_edit_note),
                             AddEditNoteFragmentDirections.actionAddNewNoteToDatePickerFragment(event.listener)
                         findNavController().navigate(action)
                     }
-                    is AddEditNoteViewModel.AddEditNoteEvent.NavigateToTimePicker -> TODO()
+                    is AddEditNoteViewModel.AddEditNoteEvent.NavigateToTimePicker -> {
+                    }
+                    is AddEditNoteViewModel.AddEditNoteEvent.NavigateToMapFragment -> {
+                        val action = AddEditNoteFragmentDirections.actionAddNewNoteToMapFragment()
+                        findNavController().navigate(action)
+                    }
                 }.exhaustive
             }
         }
