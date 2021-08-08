@@ -104,10 +104,10 @@ class AddEditNoteViewModel @ViewModelInject constructor(
     val addEditNoteEvent = addEditNoteEventChannel.receiveAsFlow()
 
     fun onSaveClick() {
-        // FIXME: 08-08-2021  
-        val sdf = SimpleDateFormat("hh:mm\tdd/MM/yyyy", Locale("EN", "IN"))
-        Log.d(TAG, "onSaveClick: ${mutableTime.value}\t${mutableDate.value}")
-        noteRemindLong = sdf.format("${mutableTime.value}\t${mutableDate.value}").toLong()
+        
+        val sdf = SimpleDateFormat("hh:mm a dd/MM/yyyy", Locale("EN", "IN"))
+        val date: Date = sdf.parse("${mutableTime.value} ${mutableDate.value}") ?: Date()
+        noteRemindLong = date.time
 
         if (noteTitle.isBlank()) {
             showInvalidInputMessage("Title cannot be Empty")
@@ -121,6 +121,7 @@ class AddEditNoteViewModel @ViewModelInject constructor(
             showInvalidInputMessage("Time already Passed")
             return
         }
+        Log.d(TAG, "onSaveClick: $noteRemindLong")
 
         if (note != null) {
             val updatedNote = note.copy(
@@ -160,6 +161,7 @@ class AddEditNoteViewModel @ViewModelInject constructor(
                 noteFolder
             )
         )
+        Log.d(TAG, "updateNote: ${note.remindOn}")
     }
 
     private fun showInvalidInputMessage(message: String) = viewModelScope.launch {
