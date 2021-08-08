@@ -22,11 +22,12 @@ import com.example.noteapp.util.exhaustive
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
+import java.text.SimpleDateFormat
 import java.util.*
 
 @AndroidEntryPoint
 class AddEditNoteFragment : Fragment(R.layout.fragment_add_edit_note),
-    DatePickerDialog.OnDateSetListener , TimePickerDialog.OnTimeSetListener {
+    DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
     private val viewModel: AddEditNoteViewModel by viewModels()
     private val TAG = "AddEditNoteFragment"
 
@@ -64,7 +65,7 @@ class AddEditNoteFragment : Fragment(R.layout.fragment_add_edit_note),
             buttonEditNotePickTime.setOnClickListener {
                 val hour = calendar.get(Calendar.HOUR_OF_DAY)
                 val minute = calendar.get(Calendar.MINUTE)
-                TimePickerDialog(context,this@AddEditNoteFragment,hour,minute,false).show()
+                TimePickerDialog(context, this@AddEditNoteFragment, hour, minute, false).show()
             }
             buttonEditNotePickLocation.setOnClickListener {
                 // TODO: 06-08-2021
@@ -128,6 +129,10 @@ class AddEditNoteFragment : Fragment(R.layout.fragment_add_edit_note),
     }
 
     override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
-        viewModel.noteRemindTime = "$hourOfDay : $minute"
+
+        val time24 = SimpleDateFormat("HH:mm", Locale("EN", "IN"))
+        val time12 = SimpleDateFormat("hh:mm a", Locale("EN", "IN"))
+        val date: Date = time24.parse("$hourOfDay:$minute") ?: Date()
+        viewModel.noteRemindTime = time12.format(date)
     }
 }
