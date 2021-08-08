@@ -39,6 +39,7 @@ class NoteViewModel @ViewModelInject constructor(
             noteDao.getNotes(query, filterPreference.sortOrder,filterPreference.hideCompleted,folderName)
         }
 
+
     val notes = taskFlow.asLiveData()
 
     fun onSortOrderSelected(sortOrder: SortOrder)= viewModelScope.launch {
@@ -53,7 +54,6 @@ class NoteViewModel @ViewModelInject constructor(
     fun onThemeSelected(theme:String)= viewModelScope.launch {
         preferencesManager.updateTheme(theme )
         noteEventChannel.send(NotesEvent.RecreateActivity)
-
     }
 
     fun onNoteSelected(note: Note)=viewModelScope.launch{

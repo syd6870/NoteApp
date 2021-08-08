@@ -6,6 +6,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
@@ -150,11 +151,13 @@ class NotesFragment : Fragment(R.layout.fragment_notes),NoteAdapter.onItemClickL
             R.id.action_select_light_mode -> {
                 viewModel.onThemeSelected("light")
                 Toast.makeText(requireContext(), "Theme:Light Mode!", Toast.LENGTH_SHORT).show()
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
                 true
             }
             R.id.action_select_dark_mode -> {
                 viewModel.onThemeSelected("dark")
                 Toast.makeText(requireContext(), "Theme:Dark Mode!", Toast.LENGTH_SHORT)
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
                 true
             }
             else -> super.onOptionsItemSelected(item)

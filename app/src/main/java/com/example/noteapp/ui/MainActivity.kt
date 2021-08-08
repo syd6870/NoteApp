@@ -3,6 +3,8 @@ package com.example.noteapp.ui
 import android.app.Activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
@@ -17,7 +19,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
-    //private val preferencesManager=PreferencesManager(this@MainActivity)
+    //private val preferencesManager = PreferencesManager(this@MainActivity)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         //setTheme(getTheme())
@@ -26,13 +28,24 @@ class MainActivity : AppCompatActivity() {
 
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-        navController=navHostFragment.findNavController()
+        navController = navHostFragment.findNavController()
 
         setupActionBarWithNavController(navController)
 
+        /*lifecycleScope.launchWhenStarted {
+            setTheme()
+        }*/
+
     }
 
-
+    /*private suspend fun setTheme() {
+        val theme = preferencesManager.preferenceFlow.first().theme
+        if (theme == "light") {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        }
+    }*/
 
 
     override fun onSupportNavigateUp(): Boolean {

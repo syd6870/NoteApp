@@ -27,10 +27,12 @@
         <entry key="..\:/Android-Project/NoteApp/app/src/main/res/layout/fragment_add_new_note.xml" value="0.25" />
         <entry key="..\:/Android-Project/NoteApp/app/src/main/res/layout/fragment_folder.xml" value="0.2" />
         <entry key="..\:/Android-Project/NoteApp/app/src/main/res/layout/fragment_map.xml" value="0.20416666666666666" />
+        <entry key="..\:/Android-Project/NoteApp/app/src/main/res/layout/fragment_nearby_location.xml" value="0.20416666666666666" />
         <entry key="..\:/Android-Project/NoteApp/app/src/main/res/layout/fragment_notes.xml" value="0.20416666666666666" />
         <entry key="..\:/Android-Project/NoteApp/app/src/main/res/layout/fragment_start.xml" value="0.25" />
         <entry key="..\:/Android-Project/NoteApp/app/src/main/res/layout/fragment_view_note.xml" value="0.25" />
         <entry key="..\:/Android-Project/NoteApp/app/src/main/res/layout/item_folder.xml" value="0.33" />
+        <entry key="..\:/Android-Project/NoteApp/app/src/main/res/layout/item_nearby_card.xml" value="0.25" />
         <entry key="..\:/Android-Project/NoteApp/app/src/main/res/layout/item_note.xml" value="0.33" />
         <entry key="..\:/Android-Project/NoteApp/app/src/main/res/menu/menu_fragment_note.xml" value="0.20416666666666666" />
       </map>
