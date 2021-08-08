@@ -17,7 +17,7 @@ import kotlinx.coroutines.launch
 
 class MapViewModel @ViewModelInject constructor() : ViewModel() {
 
-   /* private val TAG = "MapViewModel"
+    private val TAG = "MapViewModel"
     val enableButton = MutableLiveData(false)
     private var mapData = MapData(400.0, 400.0, "")
     lateinit var geocoder: Geocoder
@@ -31,35 +31,42 @@ class MapViewModel @ViewModelInject constructor() : ViewModel() {
 
     }
 
-     fun getAddressFromCoordinates(geoCoordinates: GeoCoordinates) {
-        val maxItems = 1
+    fun getAddressFromCoordinates(geoCoordinates: GeoCoordinates) {
+        getAddressFromGeoCoder(geoCoordinates)
+    /*val maxItems = 1
         val reverseGeocodingOptions = SearchOptions(LanguageCode.EN_GB, maxItems)
         mapData.latitude = geoCoordinates.latitude
         mapData.longitude = geoCoordinates.longitude
-         try {
-             searchEngine.search(geoCoordinates, reverseGeocodingOptions, addressSearchCallback)
-         }
-         catch (e:Exception){
-             getAddressFromGeoCoder()
-         }
+        try {
+            searchEngine.search(geoCoordinates, reverseGeocodingOptions, addressSearchCallback)
+        } catch (e: Exception) {
+            getAddressFromGeoCoder()
+        }*/
     }
 
-    private val addressSearchCallback =
+    /*private val addressSearchCallback =
         SearchCallback { searchError, list ->
             if (searchError != null) {
+                Log.d(TAG, "Address : GeoCoder ")
                 getAddressFromGeoCoder()
                 return@SearchCallback
             }
 
             // If error is null, list is guaranteed to be not empty.
             //showDialog("Reverse geocoded address:", list!![0].address.addressText)
+            Log.d(TAG, "Address : SearchEngine ")
             mapData.address = list!![0].address.addressText
-        }
+            enableButton.value=true
+            val address = geocoder.getFromLocation(mapData.latitude, mapData.longitude, 1)
+            Log.d(TAG, "GeoCoder : $address ")
+            Log.d(TAG, "SearchEngine : ${list[0].address.addressText} ")
+        }*/
 
 
-    private fun getAddressFromGeoCoder() {
-        val address = geocoder.getFromLocation(mapData.latitude, mapData.longitude, 1)
+    private fun getAddressFromGeoCoder(geoCoordinates: GeoCoordinates) {
+        val address = geocoder.getFromLocation(geoCoordinates.latitude,geoCoordinates.longitude, 1)
         mapData.address = address[0].getAddressLine(0)
+        enableButton.value=true
     }
 
     fun onConfirmButtonClick() = viewModelScope.launch {
@@ -70,5 +77,5 @@ class MapViewModel @ViewModelInject constructor() : ViewModel() {
     sealed class MapEvent {
         data class NavigateBackFromMapWithResult(val result: MapData) :
             MapEvent()
-    }*/
+    }
 }

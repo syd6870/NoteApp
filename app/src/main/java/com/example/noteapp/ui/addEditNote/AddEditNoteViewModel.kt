@@ -64,14 +64,14 @@ class AddEditNoteViewModel @ViewModelInject constructor(
             mutableDate.value = value
         }
 
-    private var noteLocationLatitude =
+     var noteLocationLatitude =
         state.get<Float>("noteLocationLatitude") ?: note?.latitude ?: 0.0f
         set(value) {
             field = value
             state.set("noteLocationLatitude", value)
         }
 
-    private var noteLocationLongitude =
+     var noteLocationLongitude =
         state.get<Float>("noteLocationLongitude") ?: note?.longitude ?: 0.0f
         set(value) {
             field = value

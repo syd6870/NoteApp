@@ -20,60 +20,65 @@ import com.here.sdk.mapviewlite.MapMarker
 import com.here.sdk.mapviewlite.MapMarkerImageStyle
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
+import com.here.sdk.core.Anchor2D
+
+
+
 
 
 @AndroidEntryPoint
 class MapFragment() : Fragment(R.layout.fragment_map) {
-    /*private val TAG = "MapFragment"
+    private val TAG = "MapFragment"
     private val viewModel: MapViewModel by viewModels()
-    private val mapImage =
-        MapImageFactory.fromResource(context?.resources, R.drawable.ic_baseline_location_on_24);
-    private lateinit var mapMarker: MapMarker*/
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-       /* viewModel.geocoder= Geocoder(context)
+        val mapImage = MapImageFactory.fromResource(view.resources, R.drawable.placeholder_64);
+        var mapMarker = MapMarker(GeoCoordinates(19.0760, 72.8777));
+        viewModel.geocoder = Geocoder(view.context)
+
+
         val binding = FragmentMapBinding.bind(view)
-        binding.apply {1
+        binding.apply {
             mapView.onCreate(savedInstanceState)
 
             mapView.mapScene.loadScene(MapStyle.NORMAL_DAY) { errorCode ->
                 if (errorCode == null) {
-                    mapView.camera.target = GeoCoordinates(52.530932, 13.384915)
+                    mapView.camera.target = GeoCoordinates(19.0760, 72.8777)
                     mapView.camera.zoomLevel = 14.0
                 } else {
                     Log.d(TAG, "onLoadScene failed: $errorCode")
                 }
             }
 
+            val mapMarkerImageStyle = MapMarkerImageStyle()
+            mapMarkerImageStyle.anchorPoint = Anchor2D(0.5, 1.0)
+            mapMarker.addImage(mapImage, mapMarkerImageStyle);
 
-
-
-
-            mapView.mapScene.addMapMarker(mapMarker)
             mapView.gestures.setTapListener { touchPoint ->
-                val geoCoordinates = mapView.camera.viewToGeoCoordinates(touchPoint);
+                val geoCoordinates = mapView.camera.viewToGeoCoordinates(touchPoint)
 
-                mapMarker = MapMarker(geoCoordinates);
-                mapMarker.addImage(mapImage, MapMarkerImageStyle());
-                Log.d(TAG, "Tap at: " + geoCoordinates);
-
+                mapMarker.coordinates = geoCoordinates
+                mapView.mapScene.addMapMarker(mapMarker)
+                Log.d(TAG, "Tap at: ${geoCoordinates.latitude} ${geoCoordinates.longitude}");
+                viewModel.enableButton.value=false
                 viewModel.getAddressFromCoordinates(geoCoordinates)
             }
 
-            *//*viewModel.enableButton.observe(viewLifecycleOwner){
-                buttonConfirmMapLocation.isEnabled=it
-            }*//*
+            viewModel.enableButton.observe(viewLifecycleOwner) {
+                buttonConfirmMapLocation.isEnabled = it
+            }
 
 
             buttonConfirmMapLocation.setOnClickListener {
                 viewModel.onConfirmButtonClick()
             }
-        }*/
+        }
 
 
-        /*viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.mapEvent.collect { event ->
                 when (event) {
                     is MapViewModel.MapEvent.NavigateBackFromMapWithResult -> {
@@ -85,8 +90,8 @@ class MapFragment() : Fragment(R.layout.fragment_map) {
 
                         findNavController().popBackStack()
                     }
-                }.exhaustive
+                }
             }
-        }*/
+        }
     }
 }

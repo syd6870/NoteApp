@@ -84,6 +84,6 @@
     <fragment
             android:id="@+id/mapFragment"
             android:name="com.example.noteapp.ui.map.MapFragment"
-            android:label="fragment_map"
+            android:label="Chhose location"
             tools:layout="@layout/fragment_map" />
 </navigation>
