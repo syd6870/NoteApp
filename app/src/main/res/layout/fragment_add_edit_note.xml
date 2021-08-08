@@ -177,7 +177,7 @@
                             android:id="@+id/button_edit_note_pick_location"
                             android:layout_width="48dp"
                             android:layout_height="48dp"
-                            android:src="@drawable/ic_baseline_access_time_24"
+                            android:src="@drawable/ic_baseline_pin_drop_24"
                             app:tint="@color/black"
                             android:background="#ccc"
                             android:contentDescription="@string/pick_location_icon" />
