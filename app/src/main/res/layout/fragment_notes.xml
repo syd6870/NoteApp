@@ -4,13 +4,16 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.note.NotesFragment">
+        tools:context=".ui.note.NotesFragment"
+        android:backgroundTint="@color/bg_color">
 
 
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view_notes"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+
+            >
 
     </androidx.recyclerview.widget.RecyclerView>
 
