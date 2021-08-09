@@ -2,4 +2,5 @@
 <resources>
     <color name="card_bg_color">#f0f0f0</color>
     <color name="note_date">#505050</color>
+    <color name="bg_color">#000000</color>
 </resources>

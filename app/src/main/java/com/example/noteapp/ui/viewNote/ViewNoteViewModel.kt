@@ -2,10 +2,12 @@ package com.example.noteapp.ui.viewNote
 
 import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.noteapp.data.Note
+import com.example.noteapp.ui.note.NoteViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
@@ -16,6 +18,8 @@ class ViewNoteViewModel @ViewModelInject constructor(
     private val currentDatePlus1 = System.currentTimeMillis() + 86400000L;
     private val noteEventChannel = Channel<NotesEvent>()
     val notesEvent = noteEventChannel.receiveAsFlow()
+
+
 
     val note = state.get<Note>("note")
 
@@ -76,7 +80,12 @@ class ViewNoteViewModel @ViewModelInject constructor(
         noteEventChannel.send(NotesEvent.NavigateToEditNoteScreen(noteTemp))
     }
 
+    fun onDeleteClick()=viewModelScope.launch{
+        noteEventChannel.send(NotesEvent.NavigateToDeleteNoteScreen(note))
+    }
+
     sealed class NotesEvent {
         data class NavigateToEditNoteScreen(val note: Note) : NotesEvent()
+        data class NavigateToDeleteNoteScreen(val note:Note?): NotesEvent()
     }
 }

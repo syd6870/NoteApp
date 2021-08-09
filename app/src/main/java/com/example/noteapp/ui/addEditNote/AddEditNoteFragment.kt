@@ -4,9 +4,13 @@ import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.View
+import android.widget.Button
 import android.widget.DatePicker
 import android.widget.TimePicker
+import androidx.appcompat.widget.SearchView
 import androidx.core.os.bundleOf
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
@@ -19,9 +23,12 @@ import com.example.noteapp.R
 import com.example.noteapp.databinding.FragmentAddEditNoteBinding
 import com.example.noteapp.ui.map.MapData
 import com.example.noteapp.util.exhaustive
+import com.example.noteapp.util.onQueryTextChanged
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -138,6 +145,8 @@ class AddEditNoteFragment : Fragment(R.layout.fragment_add_edit_note),
 
 
     }
+
+
 
     override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
         Log.d(TAG, "onDateSet: $dayOfMonth/${month}/$year")
