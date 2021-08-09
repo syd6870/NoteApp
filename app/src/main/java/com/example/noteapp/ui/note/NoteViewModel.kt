@@ -77,15 +77,20 @@ class NoteViewModel @ViewModelInject constructor(
     }
 
     fun onDeleteAllCompletedClick()=viewModelScope.launch {
-        noteEventChannel.send(NotesEvent.NavigateToDeleteAllCompleteScreen)
+        noteEventChannel.send(NotesEvent.NavigateToDeleteAllCompleteScreen(null))
+    }
+
+    fun onDeleteResult(result:String?)=viewModelScope.launch{
+        noteEventChannel.send(NotesEvent.ShowNoteDeletedConfirmationMessage(result!!))
     }
 
     sealed class NotesEvent{
         object NavigateToAddNoteScreen :NotesEvent()
         data class NavigateToViewNoteScreen(val note:Note):NotesEvent()
         data class ShowNoteSavedConfirmationMessage(val msg:String):NotesEvent()
-        object NavigateToDeleteAllCompleteScreen:NotesEvent()
+        data class NavigateToDeleteAllCompleteScreen(val note:Note?):NotesEvent()
         object RecreateActivity:NotesEvent()
+        data class ShowNoteDeletedConfirmationMessage(val msg:String):NotesEvent()
     }
 
 

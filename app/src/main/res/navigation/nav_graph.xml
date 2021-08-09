@@ -69,11 +69,6 @@
                 android:defaultValue="@null" />
     </fragment>
     <dialog
-            android:id="@+id/deleteAllCompletedDialogFragment"
-            android:name="com.example.noteapp.ui.deleteAllCompleted.DeleteAllCompletedDialogFragment"
-            android:label="DeleteAllCompletedDialogFragment" />
-    <action android:id="@+id/action_global_deleteAllCompletedDialogFragment" app:destination="@id/deleteAllCompletedDialogFragment" />
-    <dialog
             android:id="@+id/datePickerFragment"
             android:name="com.example.noteapp.ui.dialogFragment.DatePickerFragment"
             android:label="DatePickerFragment" >
@@ -86,4 +81,15 @@
             android:name="com.example.noteapp.ui.map.MapFragment"
             android:label="Chhose location"
             tools:layout="@layout/fragment_map" />
+    <dialog
+            android:id="@+id/deleteAllCompletedDialogFragment"
+            android:name="com.example.noteapp.ui.deleteAllCompleted.DeleteAllCompletedDialogFragment"
+            android:label="DeleteAllCompletedDialogFragment" >
+        <argument
+                android:name="note"
+                app:argType="com.example.noteapp.data.Note"
+                app:nullable="true"
+                android:defaultValue="@null" />
+    </dialog>
+    <action android:id="@+id/action_global_deleteAllCompletedDialogFragment" app:destination="@id/deleteAllCompletedDialogFragment" />
 </navigation>

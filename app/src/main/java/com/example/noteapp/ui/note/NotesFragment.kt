@@ -1,6 +1,7 @@
 package com.example.noteapp.ui.note
 
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -31,6 +32,7 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class NotesFragment : Fragment(R.layout.fragment_notes),NoteAdapter.onItemClickListener {
     private val viewModel: NoteViewModel by viewModels()
+    private val TAG = "NotesFragment"
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -62,6 +64,12 @@ class NotesFragment : Fragment(R.layout.fragment_notes),NoteAdapter.onItemClickL
             viewModel.onAddEditResult(result)
         }
 
+        setFragmentResultListener("item_deleted"){_,bundle->
+            val result = bundle.getString("item_deleted_result")
+            viewModel.onDeleteResult(result)
+
+        }
+
         viewModel.notes.observe(viewLifecycleOwner) {
             noteAdapter.submitList(it)
         }
@@ -83,11 +91,15 @@ class NotesFragment : Fragment(R.layout.fragment_notes),NoteAdapter.onItemClickL
                         Snackbar.make(requireView(),event.msg,Snackbar.LENGTH_SHORT).show()
                     }
                     is NoteViewModel.NotesEvent.NavigateToDeleteAllCompleteScreen -> {
-                        val action=NotesFragmentDirections.actionGlobalDeleteAllCompletedDialogFragment()
+                        val action=NotesFragmentDirections.actionGlobalDeleteAllCompletedDialogFragment(event.note)
                         findNavController().navigate(action)
                     }
                     is NoteViewModel.NotesEvent.RecreateActivity -> {
-                        activity?.recreate()
+                        // FIXME: 09-08-2021
+                        //activity?.recreate()
+                    }
+                    is NoteViewModel.NotesEvent.ShowNoteDeletedConfirmationMessage -> {
+                        Snackbar.make(requireView(),event.msg,Snackbar.LENGTH_SHORT).show()
                     }
                 }.exhaustive
             }

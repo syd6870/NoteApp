@@ -35,6 +35,7 @@
         <entry key="..\:/Android-Project/NoteApp/app/src/main/res/layout/item_nearby_card.xml" value="0.25" />
         <entry key="..\:/Android-Project/NoteApp/app/src/main/res/layout/item_note.xml" value="0.33" />
         <entry key="..\:/Android-Project/NoteApp/app/src/main/res/menu/menu_fragment_note.xml" value="0.20416666666666666" />
+        <entry key="..\:/Android-Project/NoteApp/app/src/main/res/menu/menu_fragment_note_delete.xml" value="0.20416666666666666" />
       </map>
     </option>
   </component>

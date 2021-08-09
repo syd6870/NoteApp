@@ -6,10 +6,12 @@
 - [ ] Add scrolling Effect (Coordinator) on View Notes frag 
 - [ ] Change LinearLayout in ViewNotesFrag to ConstraintLayout
 - [X] Implement "Save Note" Button on Edit Note/Add note Fragment
-- [ ] UnTrack and delete option in toolbar menu of the note
-- [ ] Add Fragment for location
-- [ ] Add Fragment for DatePicker
-- [ ] Add Fragment for TimePicker
+- [ ] UnTrack option in toolbar menu of the note
+- [X] Delete option in toolbar menu of the note
+~~- [ ] Add Fragment for location~~
+~~- [ ] Add Fragment for DatePicker~~
+~~- [ ] Add Fragment for TimePicker~~
+-[ ] Change to Asc Sort instead of Desc
 
 ##Changes
 - [ ] Remove Addition of Folder 
