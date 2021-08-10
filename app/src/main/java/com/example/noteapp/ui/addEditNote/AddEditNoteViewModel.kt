@@ -7,6 +7,7 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
 import com.example.noteapp.data.Note
 import com.example.noteapp.data.NoteDao
+import com.example.noteapp.extra.MyAlarmManager
 import com.example.noteapp.ui.ADD_NOTE_RESULT_OK
 import com.example.noteapp.ui.EDIT_NOTE_RESULT_OK
 import com.example.noteapp.ui.dialogFragment.DateListenerInterface
@@ -20,7 +21,8 @@ import java.util.*
 
 class AddEditNoteViewModel @ViewModelInject constructor(
     private val noteDao: NoteDao,
-    @Assisted private val state: SavedStateHandle
+    @Assisted private val state: SavedStateHandle,
+    private val myAlarmManager: MyAlarmManager
 ) : ViewModel() {
 
     private val TAG = "AddEditTaskViewModel"
@@ -64,14 +66,14 @@ class AddEditNoteViewModel @ViewModelInject constructor(
             mutableDate.value = value
         }
 
-     var noteLocationLatitude =
+    var noteLocationLatitude =
         state.get<Float>("noteLocationLatitude") ?: note?.latitude ?: 0.0f
         set(value) {
             field = value
             state.set("noteLocationLatitude", value)
         }
 
-     var noteLocationLongitude =
+    var noteLocationLongitude =
         state.get<Float>("noteLocationLongitude") ?: note?.longitude ?: 0.0f
         set(value) {
             field = value
@@ -139,9 +141,20 @@ class AddEditNoteViewModel @ViewModelInject constructor(
             )
 
             updateNote(updatedNote)
+            setAlarm(updatedNote)
         } else {
             val note = Note(title = noteTitle)
             createNote(note)
+            setAlarm(note)
+        }
+
+    }
+
+    private fun setAlarm(note:Note) {
+        if (noteTracked) {
+            myAlarmManager.setAlarm(note.created, note.remindOn)
+        } else {
+            myAlarmManager.cancelAlarm(note!!.created)
         }
     }
 
@@ -183,7 +196,7 @@ class AddEditNoteViewModel @ViewModelInject constructor(
 
     fun onChooseLocationClick() = test()
 
-    private fun test()=viewModelScope.launch {
+    private fun test() = viewModelScope.launch {
         addEditNoteEventChannel.send(AddEditNoteEvent.NavigateToMapFragment)
     }
 

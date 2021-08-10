@@ -1,5 +1,6 @@
 package com.example.noteapp.ui.folder
 
+import android.app.AlarmManager
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -8,15 +9,20 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.noteapp.R
 import com.example.noteapp.databinding.FragmentFolderBinding
+import com.example.noteapp.extra.MyAlarmManager
+import com.example.noteapp.extra.MyNotificationBuilder
 import com.example.noteapp.util.exhaustive
 import com.google.android.flexbox.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
+import javax.inject.Inject
 
 
 @AndroidEntryPoint
 class FolderFragment : Fragment(R.layout.fragment_folder), FolderAdapter.onItemClickListener {
     private val viewModel: FolderFragmentViewModel by viewModels()
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -36,6 +42,13 @@ class FolderFragment : Fragment(R.layout.fragment_folder), FolderAdapter.onItemC
 
                 layoutManager = flexboxLayoutManager
                 setHasFixedSize(true)
+            }
+
+            buttonAddFolders.setOnClickListener {
+                //MyNotificationBuilder(requireContext()).createNotification()
+                //delete me and the this button
+                viewModel.setAlarm()
+
             }
 
         }
