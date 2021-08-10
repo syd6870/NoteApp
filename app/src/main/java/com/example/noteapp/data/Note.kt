@@ -24,6 +24,7 @@ data class Note(
     //val isMuted: Boolean = false,
     val isTracked: Boolean = true,
     val isCompleted: Boolean = false,
+    val distanceFromUser:Float= Float.MAX_VALUE,
     @PrimaryKey(autoGenerate = true) val id: Int = 0
 ) : Parcelable {
     val lastEditDateFormat: String
