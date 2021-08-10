@@ -25,12 +25,13 @@
             </intent-filter>
         </activity>
 
-        <meta-data
-                android:name="com.here.sdk.access_key_id"
-                android:value="ot2JeN66MhPK29RoZaZwxw" />
-        <meta-data
-                android:name="com.here.sdk.access_key_secret"
-                android:value="pb13e0iIhFKksN_BEAqIDOCRZwCvTEqns2rqJtZUh-E5bgS68XXcloV6RpqG4bu5TBG-987kdJFskiME0jBqgg" />
+
+        <receiver android:name=".extra.MyBroadcastReceiver"  android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.LOCKED_BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
 
     </application>
 

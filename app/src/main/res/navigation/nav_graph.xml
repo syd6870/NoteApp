@@ -92,4 +92,9 @@
                 android:defaultValue="@null" />
     </dialog>
     <action android:id="@+id/action_global_deleteAllCompletedDialogFragment" app:destination="@id/deleteAllCompletedDialogFragment" />
+    <fragment
+            android:id="@+id/nearbyLocationFragment"
+            android:name="com.example.noteapp.ui.nearbyLocation.NearbyLocationFragment"
+            android:label="Nearby note location"
+            tools:layout="@layout/fragment_nearby_location" />
 </navigation>
