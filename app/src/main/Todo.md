@@ -6,12 +6,12 @@
 - [ ] Add scrolling Effect (Coordinator) on View Notes frag 
 - [ ] Change LinearLayout in ViewNotesFrag to ConstraintLayout
 - [X] Implement "Save Note" Button on Edit Note/Add note Fragment
-- [ ] UnTrack option in toolbar menu of the note
+~~- [ ] UnTrack option in toolbar menu of the note~~
 - [X] Delete option in toolbar menu of the note
 ~~- [ ] Add Fragment for location~~
 ~~- [ ] Add Fragment for DatePicker~~
 ~~- [ ] Add Fragment for TimePicker~~
--[ ] Change to Asc Sort instead of Desc
+- [ ] Change to Asc Sort instead of Desc
 
 ##Changes
 - [ ] Remove Addition of Folder 
@@ -19,12 +19,12 @@
 - [X] Remove "Hide untracked Notes" and "Hide muted Notes" from menu ->both option seems unnecessary.
 
 ##Designs
-- [ ] Main Page (Contains Folders) 
+- [X] Main Page (Contains Folders) 
 - [X] Notes Page
 - [X] Add Note
 - [X] View Note
-- [ ] Pick Location
-- [ ] Nearby Location (Note's Location nearby)
+- [X] Pick Location
+- [X] Nearby Location (Note's Location nearby)
 - [X] Item Design for Note Card
 - [X] Item Design for Folder Card
 - [X] Item Design for Nearby Location Card
@@ -43,6 +43,6 @@
 
 
 ##Issues
-- [ ] Backstack after editing a note. (minor)
+- [X] Backstack after editing a note. (minor)
 
 ##Code

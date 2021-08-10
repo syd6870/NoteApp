@@ -47,5 +47,7 @@ interface NoteDao {
     @Query("DELETE FROM note_table WHERE isCompleted=1")
     suspend fun deleteCompletedNotes()
 
+    @Query("SELECT * FROM note_table WHERE isCompleted=0 AND isTracked=1")
+    fun getAllTrackedNonCompletedNote() : Flow<List<Note>>
 
 }
