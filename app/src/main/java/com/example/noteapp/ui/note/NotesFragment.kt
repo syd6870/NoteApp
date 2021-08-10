@@ -22,6 +22,8 @@ import com.example.noteapp.databinding.FragmentNotesBinding
 import com.example.noteapp.util.exhaustive
 import com.example.noteapp.util.onQueryTextChanged
 import com.google.android.flexbox.*
+import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationResult
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -33,6 +35,7 @@ import kotlinx.coroutines.launch
 class NotesFragment : Fragment(R.layout.fragment_notes),NoteAdapter.onItemClickListener {
     private val viewModel: NoteViewModel by viewModels()
     private val TAG = "NotesFragment"
+    private lateinit var locationCallback: LocationCallback
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -107,6 +110,16 @@ class NotesFragment : Fragment(R.layout.fragment_notes),NoteAdapter.onItemClickL
 
 
         setHasOptionsMenu(true)
+
+        locationCallback = object : LocationCallback() {
+            override fun onLocationResult(locationResult: LocationResult?) {
+                locationResult ?: return
+                for (location in locationResult.locations){
+                    // Update UI with location data
+                    // ...
+                }
+            }
+        }
     }
 
 

@@ -1,11 +1,14 @@
 package com.example.noteapp.ui.nearbyLocation
 
 import android.Manifest
+import android.app.Activity
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
@@ -15,11 +18,19 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.noteapp.R
 import com.example.noteapp.databinding.FragmentNearbyLocationBinding
 import com.example.noteapp.databinding.FragmentNotesBinding
+import com.example.noteapp.extra.MyLocationService
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationResult
+import com.google.android.gms.location.LocationServices
 import dagger.hilt.android.AndroidEntryPoint
+
+private const val TAG = "NearbyLocationFragment"
 
 @AndroidEntryPoint
 class NearbyLocationFragment : Fragment(R.layout.fragment_nearby_location) {
     private val viewModel: NearbyLocationViewModel by viewModels()
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -66,17 +77,22 @@ class NearbyLocationFragment : Fragment(R.layout.fragment_nearby_location) {
 
     }
 
-    fun permissionGranted(view: View){
-        val adapter=NearbyLocationAdapter()
-        val layout= LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)
+    private fun permissionGranted(view: View) {
+        val adapter = NearbyLocationAdapter()
+        val layout = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         val binding = FragmentNearbyLocationBinding.bind(view)
         binding.apply {
-            recyclerViewLocationNearby.adapter=adapter
-            recyclerViewLocationNearby.layoutManager=layout
+            recyclerViewLocationNearby.adapter = adapter
+            recyclerViewLocationNearby.layoutManager = layout
             recyclerViewLocationNearby.setHasFixedSize(true)
         }
+
+        viewModel.startLocationUpdates(activity as Activity,requireContext())
+
     }
 
-
-
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.stopLocationUpdates()
+    }
 }

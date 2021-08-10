@@ -12,6 +12,9 @@
 ~~- [ ] Add Fragment for DatePicker~~
 ~~- [ ] Add Fragment for TimePicker~~
 - [ ] Change to Asc Sort instead of Desc
+- [ ] If GPS disabled show dialog to enable it
+- [ ] Add Haversine
+- [ ] Filter list based on haversine Distance and update Recycler view
 
 ##Changes
 - [ ] Remove Addition of Folder 
