@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">NoteApp</string>
     <string name="add_new_folder">Add new folder</string>
-    <string name="track_message">Tracked Note will notify if the location is within 200M</string>
+    <string name="track_message">Tracked note will notify as a notification on given date and time </string>
     <string name="note">Note</string>
     <string name="date">Date</string>
     <string name="pick_date_icon">Pick Date Icon</string>
