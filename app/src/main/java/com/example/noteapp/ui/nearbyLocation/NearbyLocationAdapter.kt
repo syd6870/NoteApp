@@ -7,11 +7,12 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.noteapp.data.Note
 import com.example.noteapp.databinding.ItemNearbyCardBinding
+import com.example.noteapp.ui.note.NoteAdapter
 import com.example.noteapp.util.round
 
 
-class NearbyLocationAdapter() :
-    ListAdapter<Note, NearbyLocationAdapter.NearbyLocationViewHolder>(DiffCallback()){
+class NearbyLocationAdapter(private val listener: onItemClickListener) :
+    ListAdapter<Note, NearbyLocationAdapter.NearbyLocationViewHolder>(DiffCallback()) {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NearbyLocationViewHolder {
@@ -29,9 +30,9 @@ class NearbyLocationAdapter() :
     inner class NearbyLocationViewHolder(private val binding: ItemNearbyCardBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        /*init {
+        init {
             binding.apply {
-                root.setOnClickListener {
+                buttonNearbyCompleted.setOnClickListener {
                     val position = adapterPosition
                     if (position != RecyclerView.NO_POSITION) {
                         val note = getItem(position)
@@ -39,7 +40,7 @@ class NearbyLocationAdapter() :
                     }
                 }
             }
-        }*/
+        }
 
 
         fun bind(note: Note) {
@@ -48,7 +49,7 @@ class NearbyLocationAdapter() :
                 textviewNearbyBody.text = note.content
                 val string = String.format("%s\t%s", note.createdTime, note.createdDate)
                 textviewNearbyDate.text = string
-                textviewNearbyDistance.text ="≈ ${note.distanceFromUser.round(3)} Km"
+                textviewNearbyDistance.text = "≈ ${note.distanceFromUser.round(3)} Km"
             }
 
         }

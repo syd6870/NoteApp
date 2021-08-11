@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+            android:id="@+id/action_refresh"
+            android:icon="@drawable/ic_baseline_refresh_24"
+            android:title="Refresh"
+            app:showAsAction="never" />
+
+    <item
+            android:id="@+id/action_stop_location_update"
+            android:icon="@drawable/ic_baseline_location_off_24"
+            android:iconTint="#888888"
+            android:title="Stop location update"
+            app:showAsAction="never" />
+
+</menu>
