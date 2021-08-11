@@ -97,4 +97,12 @@
             android:name="com.example.noteapp.ui.nearbyLocation.NearbyLocationFragment"
             android:label="Nearby note location"
             tools:layout="@layout/fragment_nearby_location" />
+    <dialog
+            android:id="@+id/showDialog"
+            android:name="com.example.noteapp.ui.dialog.ShowDialog"
+            android:label="ShowDialog" >
+        <argument
+                android:name="dialogData"
+                app:argType="com.example.noteapp.ui.dialog.DialogData" />
+    </dialog><action android:id="@+id/action_global_showDialog" app:destination="@id/showDialog"/>
 </navigation>

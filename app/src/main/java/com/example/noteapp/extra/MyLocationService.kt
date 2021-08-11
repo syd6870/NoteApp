@@ -15,7 +15,12 @@ class MyLocationService() {
     private val REQUEST_CHECK_SETTINGS: Int = 201
 
 
-    fun createLocationRequest(activity: Activity, locationCallback: LocationCallback,fusedLocationClient: FusedLocationProviderClient) {
+    fun createLocationRequest(
+        activity: Activity,
+        locationCallback: LocationCallback,
+        fusedLocationClient: FusedLocationProviderClient,
+        locationErrorCallback : LocationError
+    ) {
 
         val locationRequest = LocationRequest.create().apply {
             interval = 10000
@@ -29,7 +34,7 @@ class MyLocationService() {
         val task: Task<LocationSettingsResponse> = client.checkLocationSettings(builder.build())
 
         task.addOnSuccessListener {
-            startLocationUpdates(locationRequest, locationCallback,fusedLocationClient)
+            startLocationUpdates(locationRequest, locationCallback, fusedLocationClient)
         }
 
         task.addOnFailureListener { exception ->
@@ -45,12 +50,13 @@ class MyLocationService() {
                         activity,
                         REQUEST_CHECK_SETTINGS
                     )
+
+                    locationErrorCallback.resolvableError()
                 } catch (sendEx: IntentSender.SendIntentException) {
                     Log.d("MyLocationService", "Exception ${sendEx.localizedMessage}")
                     // Ignore the error.
                 }
-            }
-            else{
+            } else {
                 Log.d("MyLocationService", "Non Resolvable Exception ${exception.localizedMessage}")
             }
 
@@ -74,5 +80,8 @@ class MyLocationService() {
     }
 
 
+}
 
+interface LocationError {
+    fun resolvableError()
 }

@@ -15,6 +15,7 @@
 - [ ] If GPS disabled show dialog to enable it
 - [ ] Add Haversine
 - [ ] Filter list based on haversine Distance and update Recycler view
+- [ ] Update tracked string in addEditFrag
 
 ##Changes
 - [ ] Remove Addition of Folder 
@@ -47,5 +48,6 @@
 
 ##Issues
 - [X] Backstack after editing a note. (minor)
+- [ ] Theme icon Color on option menu
 
 ##Code

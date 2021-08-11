@@ -80,7 +80,7 @@
                         android:layout_width="164dp"
                         android:layout_height="wrap_content"
                         app:icon="@drawable/ic_baseline_check_circle_24"
-                        android:text="Completed"
+                        android:text="Mark Completed"
                         android:backgroundTint="#419B3F"
                         app:autoSizeTextType="uniform"
                         app:autoSizeMinTextSize="10sp"
