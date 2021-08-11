@@ -13,9 +13,9 @@
 ~~- [ ] Add Fragment for TimePicker~~
 - [ ] Change to Asc Sort instead of Desc
 - [ ] If GPS disabled show dialog to enable it
-- [ ] Add Haversine
-- [ ] Filter list based on haversine Distance and update Recycler view
-- [ ] Update tracked string in addEditFrag
+- [X] Add Haversine
+- [X] Filter list based on haversine Distance and update Recycler view
+- [X] Update tracked string in addEditFrag
 
 ##Changes
 - [ ] Remove Addition of Folder 
