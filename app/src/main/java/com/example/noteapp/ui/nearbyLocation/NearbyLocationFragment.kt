@@ -5,11 +5,7 @@ import android.app.Activity
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.widget.LinearLayout
-import android.widget.Toast
-import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -17,20 +13,13 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.noteapp.R
 import com.example.noteapp.databinding.FragmentNearbyLocationBinding
-import com.example.noteapp.databinding.FragmentNotesBinding
-import com.example.noteapp.extra.MyLocationService
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationCallback
-import com.google.android.gms.location.LocationResult
-import com.google.android.gms.location.LocationServices
 import dagger.hilt.android.AndroidEntryPoint
 
-private const val TAG = "NearbyLocationFragment"
 
 @AndroidEntryPoint
 class NearbyLocationFragment : Fragment(R.layout.fragment_nearby_location) {
     private val viewModel: NearbyLocationViewModel by viewModels()
-
+    private val TAG = "NearbyLocationFragment"
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -43,6 +32,7 @@ class NearbyLocationFragment : Fragment(R.layout.fragment_nearby_location) {
                     // Permission is granted. Continue the action or workflow in your
                     // app.
                 } else {
+                    Log.d(TAG, "onViewCreated: No Permission")
                     // Explain to the user that the feature is unavailable because the
                     // features requires a permission that the user has denied. At the
                     // same time, respect the user's decision. Don't link to system
@@ -58,6 +48,7 @@ class NearbyLocationFragment : Fragment(R.layout.fragment_nearby_location) {
                 Manifest.permission.ACCESS_FINE_LOCATION
             ) == PackageManager.PERMISSION_GRANTED -> {
                 // You can use the API that requires the permission.
+                Log.d(TAG, "onViewCreated: Self Permission true")
                 permissionGranted(view)
             }
 
@@ -69,6 +60,7 @@ class NearbyLocationFragment : Fragment(R.layout.fragment_nearby_location) {
             else -> {
                 // You can directly ask for the permission.
                 // The registered ActivityResultCallback gets the result of this request.
+                Log.d(TAG, "onViewCreated: Self Permission true")
                 requestPermissionLauncher.launch(
                     Manifest.permission.ACCESS_FINE_LOCATION
                 )
@@ -85,9 +77,15 @@ class NearbyLocationFragment : Fragment(R.layout.fragment_nearby_location) {
             recyclerViewLocationNearby.adapter = adapter
             recyclerViewLocationNearby.layoutManager = layout
             recyclerViewLocationNearby.setHasFixedSize(true)
+
+
         }
 
-        viewModel.startLocationUpdates(activity as Activity,requireContext())
+        viewModel.noteListLiveData.observe(viewLifecycleOwner){
+            adapter.submitList(it)
+        }
+
+        viewModel.startLocationUpdates(activity as Activity, requireContext())
 
     }
 

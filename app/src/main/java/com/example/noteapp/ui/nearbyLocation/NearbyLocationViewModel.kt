@@ -1,45 +1,60 @@
 package com.example.noteapp.ui.nearbyLocation
 
-import android.Manifest
 import android.app.Activity
 import android.content.Context
-import android.content.pm.PackageManager
+import android.location.Location
 import android.util.Log
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.content.ContextCompat
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.example.noteapp.data.Note
 import com.example.noteapp.data.NoteDao
+import com.example.noteapp.extra.Geo
 import com.example.noteapp.extra.MyLocationService
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 
-private const val TAG = "NearbyLocationViewModel"
 
 class NearbyLocationViewModel @ViewModelInject constructor(
     private val noteDao: NoteDao
 ) : ViewModel() {
+    private val TAG = "NearbyLocationViewModel"
 
-    val note = noteDao.getAllTrackedNonCompletedNote()
+
+    private val test= MutableStateFlow("")
+
+    private var allNoteFlow =  noteDao.getAllTrackedNonCompletedNote().asLiveData()
+
+   // private val testData=noteDao.test().asLiveData()
+
+    var noteListLiveData = MutableLiveData<List<Note>>()
+    init {
+        allNoteFlow.observeForever {
+            Log.d(TAG, "OBSERVER : ${it}")
+           noteListLiveData.value= it
+        }
+    }
+
+
+
     var location = MutableLiveData<Pair<Double, Double>>()
 
     private lateinit var locationCallback: LocationCallback
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
+    //val noteListLiveData = MutableLiveData<List<Note>>(allNoteFlow.asLiveData().value)
 
-    fun startLocationUpdates(activity:Activity,context:Context){
+
+    private val geo = Geo()
+
+
+    fun startLocationUpdates(activity: Activity, context: Context) {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(activity)
         locationCallback = object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult?) {
@@ -51,6 +66,11 @@ class NearbyLocationViewModel @ViewModelInject constructor(
                         " ${location.latitude} ${location.longitude}",
                         Toast.LENGTH_LONG
                     ).show()
+
+                    Log.d(TAG, "onLocationResult: ${noteListLiveData.value.toString()}")
+                    updateNoteDistance(noteListLiveData.value, location)
+
+
                 }
             }
         }
@@ -62,10 +82,33 @@ class NearbyLocationViewModel @ViewModelInject constructor(
         )
     }
 
-    fun stopLocationUpdates(){
-        fusedLocationClient.removeLocationUpdates(locationCallback)
+
+    fun updateNoteDistance(noteList: List<Note>?, currentLocation: Location) {
+        val resultList = mutableListOf<Note>()
+        if (noteList != null) {
+            for (note in noteList) {
+                val distance =
+                    geo.getHaversine(
+                        currentLocation.latitude,
+                        currentLocation.longitude,
+                        note.latitude.toDouble(),
+                        note.longitude.toDouble()
+                    ).toFloat()
+
+                resultList.add(note.copy(distanceFromUser = distance))
+            }
+
+            resultList.sortBy { it.distanceFromUser }
+
+            noteListLiveData.value = resultList
+        }
+
+
     }
 
+    fun stopLocationUpdates() {
+        fusedLocationClient.removeLocationUpdates(locationCallback)
+    }
 
 
 }
