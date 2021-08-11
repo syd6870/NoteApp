@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.noteapp.data.Note
 import com.example.noteapp.databinding.ItemNearbyCardBinding
+import com.example.noteapp.util.round
 
 
 class NearbyLocationAdapter() :
@@ -47,7 +48,7 @@ class NearbyLocationAdapter() :
                 textviewNearbyBody.text = note.content
                 val string = String.format("%s\t%s", note.createdTime, note.createdDate)
                 textviewNearbyDate.text = string
-                textviewNearbyDistance.text = note.distanceFromUser.toString()
+                textviewNearbyDistance.text ="≈ ${note.distanceFromUser.round(3)} Km"
             }
 
         }

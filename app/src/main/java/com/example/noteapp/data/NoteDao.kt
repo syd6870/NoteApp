@@ -2,6 +2,7 @@ package com.example.noteapp.data
 
 import androidx.room.*
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.StateFlow
 
 @Dao
 interface NoteDao {
@@ -13,8 +14,8 @@ interface NoteDao {
         folderName: String
     ): Flow<List<Note>> =
         when (sortOrder) {
-            SortOrder.BY_DATE -> getNotesSortByDate(searchQuery, hideCompleted,folderName)
-            SortOrder.BY_NAME -> getNotesSortByName(searchQuery, hideCompleted,folderName)
+            SortOrder.BY_DATE -> getNotesSortByDate(searchQuery, hideCompleted, folderName)
+            SortOrder.BY_NAME -> getNotesSortByName(searchQuery, hideCompleted, folderName)
         }
 
 
@@ -47,7 +48,10 @@ interface NoteDao {
     @Query("DELETE FROM note_table WHERE isCompleted=1")
     suspend fun deleteCompletedNotes()
 
-    @Query("SELECT * FROM note_table WHERE isCompleted=0 AND isTracked=1")
-    fun getAllTrackedNonCompletedNote() : Flow<List<Note>>
+    @Query("SELECT * FROM note_table WHERE (isCompleted=0) AND (isTracked=1)")
+    fun getAllTrackedNonCompletedNote(): Flow<List<Note>>
+
+    @Query("SELECT * FROM note_table")
+    fun test(): Flow<List<Note>>
 
 }

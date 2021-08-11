@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.IntentSender
 import android.os.Looper
+import android.util.Log
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
 import com.google.android.gms.tasks.Task
@@ -18,7 +19,7 @@ class MyLocationService() {
 
         val locationRequest = LocationRequest.create().apply {
             interval = 10000
-            fastestInterval = 5000
+            fastestInterval = 10000
             priority = LocationRequest.PRIORITY_HIGH_ACCURACY
         }
         val builder = LocationSettingsRequest.Builder()
@@ -32,7 +33,9 @@ class MyLocationService() {
         }
 
         task.addOnFailureListener { exception ->
+            Log.d("MyLocationService", "Main Exception ${exception.localizedMessage}")
             if (exception is ResolvableApiException) {
+                Log.d("MyLocationService", "Resolvable Exception ${exception.localizedMessage}")
                 // Location settings are not satisfied, but this can be fixed
                 // by showing the user a dialog.
                 try {
@@ -43,9 +46,14 @@ class MyLocationService() {
                         REQUEST_CHECK_SETTINGS
                     )
                 } catch (sendEx: IntentSender.SendIntentException) {
+                    Log.d("MyLocationService", "Exception ${sendEx.localizedMessage}")
                     // Ignore the error.
                 }
             }
+            else{
+                Log.d("MyLocationService", "Non Resolvable Exception ${exception.localizedMessage}")
+            }
+
         }
 
 

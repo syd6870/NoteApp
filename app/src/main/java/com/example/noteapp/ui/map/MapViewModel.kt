@@ -33,15 +33,15 @@ class MapViewModel @ViewModelInject constructor() : ViewModel() {
 
     fun getAddressFromCoordinates(geoCoordinates: GeoCoordinates) {
         getAddressFromGeoCoder(geoCoordinates)
-    /*val maxItems = 1
-        val reverseGeocodingOptions = SearchOptions(LanguageCode.EN_GB, maxItems)
-        mapData.latitude = geoCoordinates.latitude
-        mapData.longitude = geoCoordinates.longitude
-        try {
-            searchEngine.search(geoCoordinates, reverseGeocodingOptions, addressSearchCallback)
-        } catch (e: Exception) {
-            getAddressFromGeoCoder()
-        }*/
+        /*val maxItems = 1
+            val reverseGeocodingOptions = SearchOptions(LanguageCode.EN_GB, maxItems)
+            mapData.latitude = geoCoordinates.latitude
+            mapData.longitude = geoCoordinates.longitude
+            try {
+                searchEngine.search(geoCoordinates, reverseGeocodingOptions, addressSearchCallback)
+            } catch (e: Exception) {
+                getAddressFromGeoCoder()
+            }*/
     }
 
     /*private val addressSearchCallback =
@@ -64,9 +64,11 @@ class MapViewModel @ViewModelInject constructor() : ViewModel() {
 
 
     private fun getAddressFromGeoCoder(geoCoordinates: GeoCoordinates) {
-        val address = geocoder.getFromLocation(geoCoordinates.latitude,geoCoordinates.longitude, 1)
+        val address = geocoder.getFromLocation(geoCoordinates.latitude, geoCoordinates.longitude, 1)
         mapData.address = address[0].getAddressLine(0)
-        enableButton.value=true
+        mapData.latitude = geoCoordinates.latitude
+        mapData.longitude = geoCoordinates.longitude
+        enableButton.value = true
     }
 
     fun onConfirmButtonClick() = viewModelScope.launch {

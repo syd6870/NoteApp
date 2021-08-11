@@ -1,5 +1,6 @@
 package com.example.noteapp.ui.note
 
+import android.util.Log
 import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
@@ -21,6 +22,7 @@ class NoteViewModel @ViewModelInject constructor(
     private val preferencesManager: PreferencesManager,
     @Assisted private val state:SavedStateHandle
 ) : ViewModel() {
+    private  val TAG = "NoteViewModel"
 
     private val noteEventChannel = Channel<NotesEvent>()
     val noteEvent = noteEventChannel.receiveAsFlow()
@@ -38,6 +40,10 @@ class NoteViewModel @ViewModelInject constructor(
     }.flatMapLatest { (query, filterPreference) ->
             noteDao.getNotes(query, filterPreference.sortOrder,filterPreference.hideCompleted,folderName)
         }
+
+
+
+
 
 
     val notes = taskFlow.asLiveData()
