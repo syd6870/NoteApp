@@ -78,7 +78,6 @@ class AddEditNoteFragment : Fragment(R.layout.fragment_add_edit_note),
             }
             buttonEditNotePickLocation.setOnClickListener {
                 viewModel.onChooseLocationClick()
-                // TODO: 06-08-2021
             }
 
             tilEditNoteTitle.editText!!.addTextChangedListener {
