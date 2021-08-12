@@ -149,7 +149,13 @@ class AddEditNoteViewModel @ViewModelInject constructor(
             updateNote(updatedNote)
             setAlarm(updatedNote)
         } else {
-            val note = Note(title = noteTitle)
+            val note = Note(title = noteTitle,
+                content = noteContent,
+                remindOn = noteRemindLong,
+                latitude = noteLocationLatitude,
+                longitude = noteLocationLongitude,
+                address = noteAddress,
+                isTracked = noteTracked,)
             createNote(note)
             setAlarm(note)
         }
@@ -159,8 +165,10 @@ class AddEditNoteViewModel @ViewModelInject constructor(
     private fun setAlarm(note:Note) {
         if (noteTracked) {
             myAlarmManager.setAlarm(note.created, note.remindOn)
+            Log.d(TAG, "setAlarm: Alarm Set. NoteTracked= ${noteTracked}")
         } else {
-            myAlarmManager.cancelAlarm(note!!.created)
+            myAlarmManager.cancelAlarm(note.created)
+            Log.d(TAG, "setAlarm: Alarm Cancelled. NoteTracked= ${noteTracked}")
         }
     }
 

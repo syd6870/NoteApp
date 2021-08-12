@@ -21,8 +21,8 @@ import javax.inject.Inject
 
 class MyNotificationBuilder @Inject constructor(@ApplicationContext private val context: Context) {
     private val CHANNEL_ID = "0"
-    private val notificationTitle = "Title "
-    private val notificationContent = "Content "
+    private val notificationTitle = "Reminder "
+    private val notificationContent = " Reminder of note. Click me to View"
 
 
     init {

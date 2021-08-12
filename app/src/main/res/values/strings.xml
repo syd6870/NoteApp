@@ -3,9 +3,9 @@
     <string name="add_new_folder">Add new folder</string>
     <string name="track_message">Tracked note will notify as a notification on given date and time </string>
     <string name="note">Note</string>
-    <string name="date">Date</string>
+    <string name="date">Reminder Date</string>
     <string name="pick_date_icon">Pick Date Icon</string>
-    <string name="time">Time</string>
+    <string name="time">Reminder Time</string>
     <string name="location">Location</string>
     <string name="add_note_title_placeholder">Click to change title</string>
     <string name="add_note_content_placeholder">Note description</string>

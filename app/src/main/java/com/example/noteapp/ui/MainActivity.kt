@@ -14,12 +14,13 @@ import com.example.noteapp.R
 import com.example.noteapp.data.PreferencesManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
-    //private val preferencesManager = PreferencesManager(this@MainActivity)
+    //private lateinit var preferencesManager:PreferencesManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         //setTheme(getTheme())
@@ -31,8 +32,12 @@ class MainActivity : AppCompatActivity() {
         navController = navHostFragment.findNavController()
 
         setupActionBarWithNavController(navController)
+        //preferencesManager=PreferencesManager(this)
+       /* lifecycleScope.launchWhenStarted {
 
-        /*lifecycleScope.launchWhenStarted {
+        }*/
+
+       /* runBlocking {
             setTheme()
         }*/
 
