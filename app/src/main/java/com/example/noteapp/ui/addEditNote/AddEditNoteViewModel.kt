@@ -12,6 +12,7 @@ import com.example.noteapp.ui.ADD_NOTE_RESULT_OK
 import com.example.noteapp.ui.EDIT_NOTE_RESULT_OK
 import com.example.noteapp.ui.dialogFragment.DateListenerInterface
 import com.example.noteapp.ui.folder.Folder
+import com.example.noteapp.util.toDate
 import com.example.noteapp.util.toTime
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -59,7 +60,7 @@ class AddEditNoteViewModel @ViewModelInject constructor(
         }
 
     var noteRemindDate =
-        state.get<String>("noteReminderDate") ?: note?.reminderDate ?: currentDatePlus1.toTime()
+        state.get<String>("noteReminderDate") ?: note?.reminderDate ?: currentDatePlus1.toDate()
         set(value) {
             field = value
             state.set("noteReminderDate", value)
@@ -125,6 +126,11 @@ class AddEditNoteViewModel @ViewModelInject constructor(
             showInvalidInputMessage("Time already Passed")
             return
         }
+        if(noteAddress.isBlank()){
+            showInvalidInputMessage("Location Empty")
+            return
+        }
+
         Log.d(TAG, "onSaveClick: $noteRemindLong")
 
         if (note != null) {
