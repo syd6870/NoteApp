@@ -150,8 +150,8 @@ class AddEditNoteFragment : Fragment(R.layout.fragment_add_edit_note),
 
     override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
         Log.d(TAG, "onDateSet: $dayOfMonth/${month}/$year")
-        viewModel.noteRemindDate = "$dayOfMonth/${month}/$year"
-        Snackbar.make(requireView(), "$dayOfMonth/${month}/$year", Snackbar.LENGTH_LONG).show()
+        viewModel.noteRemindDate = "${dayOfMonth}/${month+1}/$year"
+        //Snackbar.make(requireView(), "$dayOfMonth/${month+1}/$year", Snackbar.LENGTH_LONG).show()
     }
 
     override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
