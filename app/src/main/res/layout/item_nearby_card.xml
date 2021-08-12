@@ -10,20 +10,23 @@
             android:layout_height="wrap_content"
             app:cardUseCompatPadding="true"
             app:cardElevation="4dp"
-            app:cardCornerRadius="10dp">
+            app:cardCornerRadius="10dp"
+            android:minHeight="164dp">
 
 
         <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="horizontal"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
-                android:baselineAligned="false">
+                android:baselineAligned="false"
+                android:gravity="center_vertical"
+                android:layout_gravity="center_vertical">
 
 
             <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:layout_weight="1">
@@ -41,7 +44,7 @@
                         android:id="@+id/textview_nearby_body"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:maxLines="8"
+                        android:maxLines="6"
                         style="@style/TextViewNoteBody"
                         tools:text="@tools:sample/lorem/random" />
 
@@ -60,7 +63,7 @@
 
             <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:layout_weight="1"
                     android:gravity="center_vertical|center_horizontal">
