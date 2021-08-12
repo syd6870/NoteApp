@@ -15,6 +15,8 @@ import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.noteapp.R
 import com.example.noteapp.data.Note
 import com.example.noteapp.data.SortOrder
@@ -47,13 +49,14 @@ class NotesFragment : Fragment(R.layout.fragment_notes),NoteAdapter.onItemClickL
         flexboxLayoutManager.flexWrap = FlexWrap.WRAP
         flexboxLayoutManager.justifyContent = JustifyContent.SPACE_AROUND
 
+        val staggeredGridLayoutManager=StaggeredGridLayoutManager(2,LinearLayoutManager.VERTICAL)
 
 
         binding.apply {
             recyclerViewNotes.apply {
                 adapter = noteAdapter
 
-                layoutManager = flexboxLayoutManager
+                layoutManager = staggeredGridLayoutManager
                 setHasFixedSize(true)
             }
 
