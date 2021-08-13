@@ -1,29 +1,27 @@
 package com.example.noteapp.ui
 
 import android.app.Activity
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.example.noteapp.R
-import com.example.noteapp.data.PreferencesManager
+import com.example.noteapp.data.Theme
+import com.example.noteapp.util.exhaustive
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.runBlocking
-import javax.inject.Inject
+import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
-    //private lateinit var preferencesManager:PreferencesManager
+    private val viewModel: MainActivityViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        //setTheme(getTheme())
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
@@ -32,25 +30,30 @@ class MainActivity : AppCompatActivity() {
         navController = navHostFragment.findNavController()
 
         setupActionBarWithNavController(navController)
-        //preferencesManager=PreferencesManager(this)
-       /* lifecycleScope.launchWhenStarted {
 
-        }*/
 
-       /* runBlocking {
-            setTheme()
-        }*/
+
+
+        this.lifecycleScope.launchWhenStarted {
+            viewModel.activityEvent.collect { event ->
+                when (event) {
+                    is MainActivityViewModel.ActivityEvent.SetTheme -> {
+                        setTheme(event.theme)
+                    }
+                }.exhaustive
+
+            }
+        }
 
     }
 
-    /*private suspend fun setTheme() {
-        val theme = preferencesManager.preferenceFlow.first().theme
-        if (theme == "light") {
+    private fun setTheme(theme: String) {
+        if (theme == Theme.LIGHT_THEME.name) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
         }
-    }*/
+    }
 
 
     override fun onSupportNavigateUp(): Boolean {

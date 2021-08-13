@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.noteapp.R
 import com.example.noteapp.data.Note
 import com.example.noteapp.data.SortOrder
+import com.example.noteapp.data.Theme
 import com.example.noteapp.databinding.FragmentNotesBinding
 import com.example.noteapp.util.exhaustive
 import com.example.noteapp.util.onQueryTextChanged
@@ -79,6 +80,8 @@ class NotesFragment : Fragment(R.layout.fragment_notes),NoteAdapter.onItemClickL
         viewModel.notes.observe(viewLifecycleOwner) {
             noteAdapter.submitList(it)
         }
+
+
 
 
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
@@ -177,13 +180,13 @@ class NotesFragment : Fragment(R.layout.fragment_notes),NoteAdapter.onItemClickL
                 true
             }
             R.id.action_select_light_mode -> {
-                viewModel.onThemeSelected("light")
+                viewModel.onThemeSelected(Theme.LIGHT_THEME.name)
                 Toast.makeText(requireContext(), "Theme:Light Mode!", Toast.LENGTH_SHORT).show()
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
                 true
             }
             R.id.action_select_dark_mode -> {
-                viewModel.onThemeSelected("dark")
+                viewModel.onThemeSelected(Theme.DARK_THEME.name)
                 Toast.makeText(requireContext(), "Theme:Dark Mode!", Toast.LENGTH_SHORT)
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
                 true

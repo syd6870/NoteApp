@@ -17,6 +17,7 @@ import javax.inject.Singleton
 private const val TAG = "PreferencesManager"
 
 enum class SortOrder { BY_NAME, BY_DATE }
+enum class Theme { LIGHT_THEME, DARK_THEME }
 
 data class FilterPreference(
     val sortOrder: SortOrder,
