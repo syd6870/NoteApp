@@ -24,57 +24,69 @@ class MapViewModel @ViewModelInject constructor() : ViewModel() {
 
     private val mapEventChannel = Channel<MapEvent>()
     val mapEvent = mapEventChannel.receiveAsFlow()
-    private val searchEngine = try {
+
+    //val geoCoderError = MutableLiveData(false)
+    val internetAvailable = MutableLiveData(true)
+    /*private val searchEngine = try {
         SearchEngine()
     } catch (e: InstantiationErrorException) {
         throw RuntimeException("Initialization of SearchEngine failed: " + e.error.name)
 
-    }
+    }*/
 
-    fun getAddressFromCoordinates(geoCoordinates: GeoCoordinates) {
-        getAddressFromGeoCoder(geoCoordinates)
-        /*val maxItems = 1
-            val reverseGeocodingOptions = SearchOptions(LanguageCode.EN_GB, maxItems)
+    /*   private fun getAddressFromHereSearch(geoCoordinates: GeoCoordinates) {
+           getAddressFromGeoCoder(geoCoordinates)
+           val maxItems = 1
+           val reverseGeocodingOptions = SearchOptions(LanguageCode.EN_GB, maxItems)
+           mapData.latitude = geoCoordinates.latitude
+           mapData.longitude = geoCoordinates.longitude
+           try {
+               searchEngine.search(geoCoordinates, reverseGeocodingOptions, addressSearchCallback)
+           } catch (e: Exception) {
+           }
+       }*/
+
+    /* private val addressSearchCallback =
+         SearchCallback { searchError, list ->
+             if (searchError != null) {
+                 Log.d(TAG, "Address : GeoCoder ")
+                 return@SearchCallback
+             }
+
+             // If error is null, list is guaranteed to be not empty.
+             //showDialog("Reverse geocoded address:", list!![0].address.addressText)
+             Log.d(TAG, "Address : SearchEngine ")
+             mapData.address = list!![0].address.addressText
+             enableButton.value = true
+             val address = geocoder.getFromLocation(mapData.latitude, mapData.longitude, 1)
+             Log.d(TAG, "GeoCoder : $address ")
+             Log.d(TAG, "SearchEngine : ${list[0].address.addressText} ")
+         }
+ */
+
+    fun getAddressFromGeoCoder(geoCoordinates: GeoCoordinates) {
+        if (internetAvailable.value == true) {
+            val address =
+                geocoder.getFromLocation(geoCoordinates.latitude, geoCoordinates.longitude, 1)
+            mapData.address = address[0].getAddressLine(0)
             mapData.latitude = geoCoordinates.latitude
             mapData.longitude = geoCoordinates.longitude
-            try {
-                searchEngine.search(geoCoordinates, reverseGeocodingOptions, addressSearchCallback)
-            } catch (e: Exception) {
-                getAddressFromGeoCoder()
-            }*/
-    }
-
-    /*private val addressSearchCallback =
-        SearchCallback { searchError, list ->
-            if (searchError != null) {
-                Log.d(TAG, "Address : GeoCoder ")
-                getAddressFromGeoCoder()
-                return@SearchCallback
-            }
-
-            // If error is null, list is guaranteed to be not empty.
-            //showDialog("Reverse geocoded address:", list!![0].address.addressText)
-            Log.d(TAG, "Address : SearchEngine ")
-            mapData.address = list!![0].address.addressText
-            enableButton.value=true
-            val address = geocoder.getFromLocation(mapData.latitude, mapData.longitude, 1)
-            Log.d(TAG, "GeoCoder : $address ")
-            Log.d(TAG, "SearchEngine : ${list[0].address.addressText} ")
-        }*/
-
-
-    private fun getAddressFromGeoCoder(geoCoordinates: GeoCoordinates) {
-        val address = geocoder.getFromLocation(geoCoordinates.latitude, geoCoordinates.longitude, 1)
-        mapData.address = address[0].getAddressLine(0)
-        mapData.latitude = geoCoordinates.latitude
-        mapData.longitude = geoCoordinates.longitude
-        enableButton.value = true
+            enableButton.value = true
+        }
     }
 
     fun onConfirmButtonClick() = viewModelScope.launch {
         Log.d(TAG, "onConfirmButtonClick: $mapData")
         mapEventChannel.send(MapEvent.NavigateBackFromMapWithResult(mapData))
     }
+
+    /*  fun getAddress(geoCoordinates: GeoCoordinates, internetAvailable: Boolean) {
+          if (internetAvailable)
+              getAddressFromGeoCoder(geoCoordinates)
+          else
+              getAddressFromHereSearch(geoCoordinates)
+      }*/
+
 
     sealed class MapEvent {
         data class NavigateBackFromMapWithResult(val result: MapData) :
