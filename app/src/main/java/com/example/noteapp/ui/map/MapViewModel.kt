@@ -7,9 +7,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.here.sdk.core.GeoCoordinates
-import com.here.sdk.core.LanguageCode
-import com.here.sdk.core.errors.InstantiationErrorException
-import com.here.sdk.search.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
@@ -24,9 +21,9 @@ class MapViewModel @ViewModelInject constructor() : ViewModel() {
 
     private val mapEventChannel = Channel<MapEvent>()
     val mapEvent = mapEventChannel.receiveAsFlow()
+    val internetAvailable = MutableLiveData(true)
 
     //val geoCoderError = MutableLiveData(false)
-    val internetAvailable = MutableLiveData(true)
     /*private val searchEngine = try {
         SearchEngine()
     } catch (e: InstantiationErrorException) {
@@ -79,13 +76,6 @@ class MapViewModel @ViewModelInject constructor() : ViewModel() {
         Log.d(TAG, "onConfirmButtonClick: $mapData")
         mapEventChannel.send(MapEvent.NavigateBackFromMapWithResult(mapData))
     }
-
-    /*  fun getAddress(geoCoordinates: GeoCoordinates, internetAvailable: Boolean) {
-          if (internetAvailable)
-              getAddressFromGeoCoder(geoCoordinates)
-          else
-              getAddressFromHereSearch(geoCoordinates)
-      }*/
 
 
     sealed class MapEvent {

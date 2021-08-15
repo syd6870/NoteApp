@@ -3,12 +3,12 @@ package com.example.noteapp.ui.map
 import android.annotation.SuppressLint
 import android.content.Context
 import android.location.Geocoder
-import android.net.*
+import android.net.ConnectivityManager
+import android.net.NetworkInfo
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import androidx.annotation.RequiresApi
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
@@ -17,37 +17,23 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.noteapp.R
 import com.example.noteapp.databinding.FragmentMapBinding
-import com.example.noteapp.util.exhaustive
-import com.here.sdk.mapviewlite.MapStyle
+import com.here.sdk.core.Anchor2D
 import com.here.sdk.core.GeoCoordinates
 import com.here.sdk.mapviewlite.MapImageFactory
 import com.here.sdk.mapviewlite.MapMarker
 import com.here.sdk.mapviewlite.MapMarkerImageStyle
+import com.here.sdk.mapviewlite.MapStyle
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
-import com.here.sdk.core.Anchor2D
 
 @SuppressLint("MissingPermission")
 @AndroidEntryPoint
 class MapFragment() : Fragment(R.layout.fragment_map) {
     private val TAG = "MapFragment"
     private val viewModel: MapViewModel by viewModels()
-/*
-    @RequiresApi(Build.VERSION_CODES.M)
-    private val connectivityManager =
-        requireContext().getSystemService(ConnectivityManager::class.java)
-
-    @RequiresApi(Build.VERSION_CODES.M)
-    private val currentNetwork = connectivityManager.activeNetwork
-*/
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-
-        //val isConnectedOrConnecting: Boolean = activeNetwork?.isConnectedOrConnecting == true
-
 
         val mapImage = MapImageFactory.fromResource(view.resources, R.drawable.placeholder_64);
         var mapMarker = MapMarker(GeoCoordinates(19.0760, 72.8777));
@@ -88,9 +74,6 @@ class MapFragment() : Fragment(R.layout.fragment_map) {
                 mapView.mapScene.addMapMarker(mapMarker)
                 Log.d(TAG, "Tap at: ${geoCoordinates.latitude} ${geoCoordinates.longitude}");
                 viewModel.enableButton.value = false
-                //viewModel.getAddressFromCoordinates(geoCoordinates)
-                //viewModel.getAddress(geoCoordinates, false)
-
                 viewModel.internetAvailable.value = isConnected()
                 viewModel.getAddressFromGeoCoder(geoCoordinates)
             }
@@ -122,31 +105,11 @@ class MapFragment() : Fragment(R.layout.fragment_map) {
             }
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            //networkListener()
-        }
+
 
     }
 
-    /*  @RequiresApi(Build.VERSION_CODES.N)
-      fun networkListener() {
-          connectivityManager.registerDefaultNetworkCallback(object :
-              ConnectivityManager.NetworkCallback() {
-
-
-              override fun onCapabilitiesChanged(
-                  network: Network,
-                  networkCapabilities: NetworkCapabilities
-              ) {
-                  super.onCapabilitiesChanged(network, networkCapabilities)
-                  viewModel.internetAvailable.value =
-                      networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
-              }
-
-          })
-      }*/
-
-    fun isConnected(): Boolean {
+   private fun isConnected(): Boolean {
         val cm =
             requireContext().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val activeNetwork: NetworkInfo? = cm.activeNetworkInfo
