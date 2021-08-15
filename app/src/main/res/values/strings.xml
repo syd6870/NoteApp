@@ -24,4 +24,5 @@
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam vel venenatis leo. Praesent posuere dui ac massa convallis scelerisque. Aenean placerat ipsum ante, vitae posuere est vehicula sit amet. Praesent rutrum, nisi et euismod fermentum, eros mauris scelerisque ante, quis iaculis nisi augue vel nisl. Phasellus porta lacinia augue dictum egestas. Nullam feugiat, justo at facilisis pulvinar, tellus nisl pellentesque arcu, et blandit quam ipsum eget orci. Sed ac sodales massa, vel venenatis diam. Sed facilisis justo nunc, a imperdiet urna elementum id. Nam rutrum tellus eget viverra accumsan. Praesent commodo pharetra mauris, eget lacinia tellus bibendum condimentum. Aenean dapibus sem nec elit finibus volutpat et et eros. Suspendisse potenti. Vestibulum tincidunt aliquam elit lacinia congue. Curabitur vestibulum ipsum a massa suscipit, in pellentesque dui dictum.</string>
     <string name="edit_button_to_edit_current_note">edit current note</string>
     <string name="remind_on">Remind on</string>
+    <string name="waiting_for_internet_connection">Waiting for Internet Connection</string>
 </resources>

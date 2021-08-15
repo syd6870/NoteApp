@@ -28,7 +28,11 @@
             tools:layout="@layout/fragment_folder">
         <action
                 android:id="@+id/action_startFragment_to_notesFragment"
-                app:destination="@id/notesFragment" />
+                app:destination="@id/notesFragment"
+                app:enterAnim="@anim/nav_default_enter_anim"
+                app:exitAnim="@anim/nav_default_exit_anim"
+                app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+                app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
     <fragment
             android:id="@+id/addNewNote"
@@ -79,7 +83,7 @@
     <fragment
             android:id="@+id/mapFragment"
             android:name="com.example.noteapp.ui.map.MapFragment"
-            android:label="Chhose location"
+            android:label="Choose location"
             tools:layout="@layout/fragment_map" />
     <dialog
             android:id="@+id/deleteAllCompletedDialogFragment"
