@@ -23,43 +23,6 @@ class MapViewModel @ViewModelInject constructor() : ViewModel() {
     val mapEvent = mapEventChannel.receiveAsFlow()
     val internetAvailable = MutableLiveData(true)
 
-    //val geoCoderError = MutableLiveData(false)
-    /*private val searchEngine = try {
-        SearchEngine()
-    } catch (e: InstantiationErrorException) {
-        throw RuntimeException("Initialization of SearchEngine failed: " + e.error.name)
-
-    }*/
-
-    /*   private fun getAddressFromHereSearch(geoCoordinates: GeoCoordinates) {
-           getAddressFromGeoCoder(geoCoordinates)
-           val maxItems = 1
-           val reverseGeocodingOptions = SearchOptions(LanguageCode.EN_GB, maxItems)
-           mapData.latitude = geoCoordinates.latitude
-           mapData.longitude = geoCoordinates.longitude
-           try {
-               searchEngine.search(geoCoordinates, reverseGeocodingOptions, addressSearchCallback)
-           } catch (e: Exception) {
-           }
-       }*/
-
-    /* private val addressSearchCallback =
-         SearchCallback { searchError, list ->
-             if (searchError != null) {
-                 Log.d(TAG, "Address : GeoCoder ")
-                 return@SearchCallback
-             }
-
-             // If error is null, list is guaranteed to be not empty.
-             //showDialog("Reverse geocoded address:", list!![0].address.addressText)
-             Log.d(TAG, "Address : SearchEngine ")
-             mapData.address = list!![0].address.addressText
-             enableButton.value = true
-             val address = geocoder.getFromLocation(mapData.latitude, mapData.longitude, 1)
-             Log.d(TAG, "GeoCoder : $address ")
-             Log.d(TAG, "SearchEngine : ${list[0].address.addressText} ")
-         }
- */
 
     fun getAddressFromGeoCoder(geoCoordinates: GeoCoordinates) {
         if (internetAvailable.value == true) {
