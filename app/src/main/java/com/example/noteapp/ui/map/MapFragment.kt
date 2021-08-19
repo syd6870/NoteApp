@@ -1,6 +1,11 @@
 package com.example.noteapp.ui.map
 
+import android.annotation.SuppressLint
+import android.content.Context
 import android.location.Geocoder
+import android.net.ConnectivityManager
+import android.net.NetworkInfo
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -12,25 +17,20 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.noteapp.R
 import com.example.noteapp.databinding.FragmentMapBinding
-import com.example.noteapp.util.exhaustive
-import com.here.sdk.mapviewlite.MapStyle
+import com.here.sdk.core.Anchor2D
 import com.here.sdk.core.GeoCoordinates
 import com.here.sdk.mapviewlite.MapImageFactory
 import com.here.sdk.mapviewlite.MapMarker
 import com.here.sdk.mapviewlite.MapMarkerImageStyle
+import com.here.sdk.mapviewlite.MapStyle
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
-import com.here.sdk.core.Anchor2D
 
-
-
-
-
+@SuppressLint("MissingPermission")
 @AndroidEntryPoint
 class MapFragment() : Fragment(R.layout.fragment_map) {
     private val TAG = "MapFragment"
     private val viewModel: MapViewModel by viewModels()
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -53,6 +53,16 @@ class MapFragment() : Fragment(R.layout.fragment_map) {
                 }
             }
 
+
+
+            viewModel.internetAvailable.observe(viewLifecycleOwner) {
+                if (it)
+                    cardViewInternetNotAvailable.visibility = View.GONE
+                else
+                    cardViewInternetNotAvailable.visibility = View.VISIBLE
+
+            }
+
             val mapMarkerImageStyle = MapMarkerImageStyle()
             mapMarkerImageStyle.anchorPoint = Anchor2D(0.5, 1.0)
             mapMarker.addImage(mapImage, mapMarkerImageStyle);
@@ -63,8 +73,9 @@ class MapFragment() : Fragment(R.layout.fragment_map) {
                 mapMarker.coordinates = geoCoordinates
                 mapView.mapScene.addMapMarker(mapMarker)
                 Log.d(TAG, "Tap at: ${geoCoordinates.latitude} ${geoCoordinates.longitude}");
-                viewModel.enableButton.value=false
-                viewModel.getAddressFromCoordinates(geoCoordinates)
+                viewModel.enableButton.value = false
+                viewModel.internetAvailable.value = isConnected()
+                viewModel.getAddressFromGeoCoder(geoCoordinates)
             }
 
             viewModel.enableButton.observe(viewLifecycleOwner) {
@@ -93,5 +104,15 @@ class MapFragment() : Fragment(R.layout.fragment_map) {
                 }
             }
         }
+
+
+
+    }
+
+   private fun isConnected(): Boolean {
+        val cm =
+            requireContext().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetwork: NetworkInfo? = cm.activeNetworkInfo
+        return activeNetwork?.isConnected == true
     }
 }
