@@ -27,6 +27,13 @@
         </activity>
 
 
+        <meta-data
+                android:name="com.here.sdk.access_key_id"
+                android:value="@string/key_id" />
+        <meta-data
+                android:name="com.here.sdk.access_key_secret"
+                android:value="@string/secret_key" />
+
         <receiver android:name=".extra.MyBroadcastReceiver"  android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>

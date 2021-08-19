@@ -1,2 +1,2 @@
 /build
-main/AndroidManifest.xml
+/src/main/res/values/secrets.xml
